@@ -7,8 +7,9 @@ $produk = $_POST['produk'];
 
 $query = "INSERT INTO pertanyaan (id_pertanyaan,pertanyaan,id_produk,id_user,jawaban) VALUES ('0','$pertanyaan','$produk','$id_user', '')";
 
-mysqli_query($conn,$query)
-or die("SQL Error " .mysqli_error());
-header('location:profile_user.php');
+mysqli_query($conn, $query) or die("SQL Error " . mysqli_error());
+echo "<script>alert('Pertanyaan berhasil disimpan.');</script>";
+echo "<script>window.location.href = 'keranjang.php';</script>";
+
 
 ?>

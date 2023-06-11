@@ -68,6 +68,7 @@ session_start();
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-cart-fill"></i> Keranjang</a></li>
                         <li class="nav-item"><button class="btn btn-danger m-1"><a href="logout.php" class="h5 text-decoration-none">Log Out</a></button></li>
 
                     </ul>
@@ -142,7 +143,7 @@ session_start();
                         </div>
                             <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><b>Quantity</b></label>
-                            <input type="number" class="form-control" id="exampleFormControlInput1" name="quantity" required >
+                            <input type="number" class="form-control" id="exampleFormControlInput1" name="quantity" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><b>Alamat</b></label>

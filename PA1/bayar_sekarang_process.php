@@ -8,10 +8,13 @@ move_uploaded_file($file_tmp, 'buktibayar/' .$bukti_pembayaran);
 
 $query_sql = "UPDATE checkout_produk SET status_bayar = 'Menunggu Konfirmasi', bukti_bayar = '$bukti_pembayaran' WHERE id_checkout='$id';
 ";
-if(mysqli_query($conn, $query_sql)) {
-    header("Location: profile_user.php");
+if (mysqli_query($conn, $query_sql)) {
+    echo "<script>alert('Bukti Bayar Berhasil Disimpan.');</script>";
+    echo "<script>window.location.href = 'keranjang.php';</script>";
+
 } else {
-    echo "Pembayaran gagal : " . mysqli_error($conn);
+    echo "<script>alert('Pembayaran gagal: " . mysqli_error($conn) . "');</script>";
+    echo "<script>window.location.href = 'keranjang.php';</script>";
 }
 
 ?>

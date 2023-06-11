@@ -33,38 +33,55 @@
                   <span class="h1 fw-bold mb-0">MauasJKM</span>
                 </div>
                 <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create into your account</h5>
-                <form action="register_process.php" method="post" enctype="multipart/form-data">
-                <div class="form-outline mb-1">
-                  <input type="text" id="form2Example17" class="form-control form-control-lg" name="username_register" required>
-                  <label class="form-label" for="form2Example17" >Username</label>
-                  </div>
-                  <div class="form-outline mb-1">
-                    <input type="password" id="form2Example27" class="form-control form-control-lg" name="password_register" required>
-                    <label 
-                    class="form-label" for="form2Example27" >Password</label>
-                  </div>
-                  <div class="form-outline mb-1">
-                  <input type="text" id="form2Example17" class="form-control form-control-lg" name="nama_lengkap" required>
-                  <label class="form-label" for="form2Example17" >Nama Lengkap</label>
-                  </div>
-                  <div class="form-outline mb-1">
-                    <input type="email" id="form2Example27" class="form-control form-control-lg" name="alamat_email" required>
-                    <label 
-                    class="form-label" for="form2Example27" >Alamat Email</label>
-                  </div>
-                  <div class="form-outline mb-1">
-                  <input type="text" id="form2Example17" class="form-control form-control-lg" name="alamat" required>
-                  <label class="form-label" for="form2Example17" >Alamat</label>
-                  </div>
-                  <div class="form-outline mb-1">
-                    <input type="file" id="form2Example27" class="form-control form-control-lg" name="filefoto" required>
-                    <label 
-                    class="form-label" for="form2Example27" >Upload Foto Profil</label>
-                  </div>
-                  <div class="pt-1 mb-1">
-                    <button class="btn btn-dark btn-lg btn-block" name="login">Register</button>
-                  </div>
-                </form>
+                <form action="register_process.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+  <div class="form-outline mb-1">
+    <input type="text" id="form2Example17" class="form-control form-control-lg" name="username_register" autofocus>
+    <label class="form-label" for="form2Example17">Username</label>
+  </div>
+  <div class="form-outline mb-1">
+    <input type="password" id="form2Example27" class="form-control form-control-lg" name="password_register" autofocus>
+    <label class="form-label" for="form2Example27">Password</label>
+  </div>
+  <div class="form-outline mb-1">
+    <input type="text" id="form2Example17" class="form-control form-control-lg" name="nama_lengkap" autofocus>
+    <label class="form-label" for="form2Example17">Nama Lengkap</label>
+  </div>
+  <div class="form-outline mb-1">
+    <input type="email" id="form2Example27" class="form-control form-control-lg" name="alamat_email" autofocus>
+    <label class="form-label" for="form2Example27">Alamat Email</label>
+  </div>
+  <div class="form-outline mb-1">
+    <input type="text" id="form2Example17" class="form-control form-control-lg" name="alamat" autofocus>
+    <label class="form-label" for="form2Example17">Alamat</label>
+  </div>
+  <div class="form-outline mb-1">
+    <input type="file" id="form2Example27" class="form-control form-control-lg" name="filefoto" autofocus>
+    <label class="form-label" for="form2Example27">Upload Foto Profil</label>
+  </div>
+  <div class="pt-1 mb-1">
+    <button class="btn btn-dark btn-lg btn-block" name="login">Register</button>
+  </div>
+</form>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  function validateForm() {
+    var username = document.forms[0]["username_register"].value;
+    var password = document.forms[0]["password_register"].value;
+    var namaLengkap = document.forms[0]["nama_lengkap"].value;
+    var alamatEmail = document.forms[0]["alamat_email"].value;
+    var alamat = document.forms[0]["alamat"].value;
+    var fileFoto = document.forms[0]["filefoto"].value;
+
+    if (username === "" || password === "" || namaLengkap === "" || alamatEmail === "" || alamat === "" || fileFoto === "") {
+      swal("Oops!", "Mohon lengkapi semua field.", "error");
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
                 <p class="mb-5 pb-lg-2" style="color: black;">Do you have an account? 
                     <a href="login.php"
                       style="color: #393f81;" class="text-decoration-none">Login here</a></p>

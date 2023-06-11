@@ -31,45 +31,65 @@
             <div class="col-md-6 col-lg-7 d-flex align-items-center" style="background-color: #9DC183;">
               <div class="card-body p-4 p-lg-5 text-black ">
 
-                <form action="login_process.php" method="post">
+              <form action="login_process.php" method="post" onsubmit="showSweetAlert(event)">
+  <div class="d-flex align-items-center mb-3 pb-1">
+    <span class="h1 fw-bold mb-0">MauasJKM</span>
+  </div>
+  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+  <div class="form-outline mb-4">
+    <input type="text" id="form2Example17" class="form-control form-control-lg" name="username" >
+    <label class="form-label" for="form2Example17">Username</label>
+  </div>
+  <div class="form-outline mb-2">
+    <input type="password" id="form2Example27" class="form-control form-control-lg" name="password" >
+    <label class="form-label" for="form2Example27">Password</label>
+  </div>
+  <div class="pt-1 mb-2">
+    <button class="btn btn-dark btn-lg btn-block" name="login">Login</button>
+  </div>
+  <p class="mb-5 pb-lg-2" style="color: black;">Don't have an account? 
+    <a href="register.php" style="color: #393f81;" class="text-decoration-none">Register here</a><b> OR </b>are you an admin?
+    <a href="login_admin.php" class="text-decoration-none" style="color: #393f81;">Login Here</a>
+  </p>
+  <div class="text-center">
+    <a href="https://www.instagram.com/mauas_jkm/" class="text-decoration-none">
+      <i class='fa fa-instagram m-3 p-3' style='font-size:46px; color:black'></i>
+    </a>
+    <a href="https://www.facebook.com/search/top?q=mauas%20jkm" class="text-decoration-none">
+      <i class='fa fa-facebook m-3 p-3' style='font-size:46px; color:black'></i>
+    </a>
+    <a href="https://www.youtube.com/@mauasjkm2880" class="text-decoration-none">
+      <i class='fa fa-youtube m-3 p-3' style='font-size:46px; color:black'></i>
+    </a>
+  </div>
+</form>
 
-                  <div class="d-flex align-items-center mb-3 pb-1">
-                    
-                    <span class="h1 fw-bold mb-0">MauasJKM</span>
-                  </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+<script>
+  function showSweetAlert(event) {
+    var username = document.forms[0]["username"].value;
+      var password = document.forms[0]["password"].value;
+  
+      if (username === "" || password === "") {
+        swal("Oops!", "Lengkapi Semua Inputan.", "error");
+        return false;
+      }
+    event.preventDefault(); // Menghentikan submit form default
 
-                  <div class="form-outline mb-4">
-                    <input type="text" id="form2Example17" class="form-control form-control-lg" name="username" required>
-                    <label class="form-label" for="form2Example17">Username</label>
-                  </div>
+        swal({
+            title: "Success!",
+            text: "Data Berhasil Diterima.",
+            icon: "success",
+            button: "OK",
+        }).then((value) => {
+            if (value) {
+                event.target.submit(); // Submit form setelah menampilkan SweetAlert
+            }
+        });
+    }
+</script>
 
-                    <div class="form-outline mb-2">
-                      <input type="password" id="form2Example27" class="form-control form-control-lg" name="password" required>
-                      <label class="form-label" for="form2Example27">Password</label>
-                    </div>
-
-                  <div class="pt-1 mb-2">
-                    <button class="btn btn-dark btn-lg btn-block"name="login">Login</button>
-                  </div>
-
-                  <p class="mb-5 pb-lg-2" style="color: black;">Don't have an account? 
-                  <a href="register.php"
-                      style="color: #393f81;" class="text-decoration-none">Register here</a><b> OR </b>are you an admin?<a href="login_admin.php"class="text-decoration-none"style="color: #393f81;">Login Here</a></p>
-                      
-                      <div class="text-center">
-                        <a href="https://www.instagram.com/mauas_jkm/" class="text-decoration-none">
-                          <i class='fa fa-instagram m-3 p-3' style='font-size:46px; color:black'></i>
-                        <a href="https://www.facebook.com/search/top?q=mauas%20jkm" class="text-decoration-none">
-                        <i class='fa fa-facebook m-3 p-3' style='font-size:46px; color:black'></i>
-                        </a>
-                        <a href="https://www.youtube.com/@mauasjkm2880" class="text-decoration-none">
-                        <i class='fa fa-youtube m-3 p-3' style='font-size:46px; color:black'></i>
-                        </a>
-                        </a>
-                      </div>
-                </form>
               </div>
             </div>
           </div>

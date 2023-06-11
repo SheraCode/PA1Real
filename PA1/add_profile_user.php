@@ -12,6 +12,8 @@ session_start();
 <!-- Basic -->
 
 <head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -124,25 +126,42 @@ session_start();
                     <div class="single-product-details">
                        
                     <!-- form pembelian -->
-                    <form action="profile_user_process.php" method="post" enctype="multipart/form-data">
+                    <form action="profile_user_process.php" method="post" enctype="multipart/form-data" onsubmit="showSweetAlert(event)">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label"><b>Nama Lengkap</b></label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="nama_lengkap" value="<?php ?>">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="nama_lengkap" value="<?php ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label"><b>Alamat Email</b></label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="alamat_email">
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="alamat_email" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label"><b>Foto Profil</b></label>
-                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="foto">
+                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="foto" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><b>Alamat</b></label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="alamat"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="alamat" required></textarea>
                         </div>
                             <button class="btn btn-warning"><b>Submit</b></button>
                     </form>
+                    <script>
+    function showSweetAlert(event) {
+        event.preventDefault(); // Menghentikan submit form default
+
+        swal({
+            title: "Success!",
+            text: "Profile updated successfully.",
+            icon: "success",
+            button: "OK",
+        }).then((value) => {
+            if (value) {
+                event.target.submit(); // Submit form setelah menampilkan SweetAlert
+            }
+        });
+    }
+</script>
+
 						</div>
                     </div>
                 </div>

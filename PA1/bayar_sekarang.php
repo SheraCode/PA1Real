@@ -132,7 +132,7 @@ session_start();
                  {?>
                         <h2 class="text-center"><b><?php echo $row['status_bayar']; ?></b></h2>
                     <!-- form pembelian -->
-    <form action="bayar_sekarang_process.php" method="post" enctype="multipart/form-data">
+    <form action="bayar_sekarang_process.php" method="post" enctype="multipart/form-data" onsubmit="showSweetAlert(event)">
         <fieldset disabled>
 
           <div class="mb-3">
@@ -172,7 +172,7 @@ session_start();
         </fieldset>
         <input type="hidden" id="disabledTextInput" class="form-control" name="id_produk" value="<?php echo $row['id_checkout'];?>">
         <div class="mb-3">
-            <label for="disabledTextInput" class="form-label"><b>Unggah Bukti Pembayaran</b></label>
+            <label for="disabledTextInput" class="form-label"><b>Unggah Bukti Pembayaran (Jpeg,PNG,Jpg)</b></label>
             <input type="file" id="disabledTextInput" class="form-control" name="bukti_pembayaran" value="<?php echo $row['bukti_bayar'];?>" required>
           </div>
 
@@ -181,6 +181,24 @@ session_start();
                           <?php }?>
                               </div>
     </form>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+    event.preventDefault(); // Menghentikan submit form default
+
+        swal({
+            title: "Success!",
+            text: "Bukti Bayar Berhasil Disimpan.",
+            icon: "success",
+            button: "OK",
+        }).then((value) => {
+            if (value) {
+                event.target.submit(); // Submit form setelah menampilkan SweetAlert
+            }
+        });
+    
+</script>
+
                     </div>
                 </div>
             </div>

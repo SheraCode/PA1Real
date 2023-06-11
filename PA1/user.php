@@ -153,25 +153,25 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
                         <img class="img-fluid" src="asset/madulogin.jpeg" alt="" />
-                        <a class="btn hvr-hover text-light" onclick="alertdetail()">Madu Mauas</a>
+                        <a class="btn hvr-hover" href="detailmadu.php">Madu Mauas</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
                         <img class="img-fluid" src="asset/cookieslogin.jpeg" alt="" />
-                        <a class="btn hvr-hover text-light" onclick="alertdetail()">Cookies Mauas</a>
+                        <a class="btn hvr-hover" href="detailcookies.php">Cookies Mauas</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
                         <img class="img-fluid" src="asset/sambalteman.jpeg" alt="" />
-                        <a class="btn hvr-hover text-light" onclick="alertdetail()">Sambal Teri Andaliman (TEMAN)</a>
+                        <a class="btn hvr-hover" href="detailteman.php">Sambal Teri Andaliman (TEMAN)</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Categories -->
+        <!-- End Categories -->
 	
 	<div class="box-add-products">
 		<div class="container">
@@ -218,7 +218,7 @@
                             <img src="asset/madulogin.jpeg" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a  data-toggle="tooltip" data-placement="right" title="View" onclick="alertdetail()"><i class="fas fa-eye text-light"></i></a></li>
+                                    <li><a href="detailmadu.php" data-toggle="tooltip" data-placement="right" title="View" ><i class="fas fa-eye text-light"></i></a></li>
                                 </ul>
                                 <a class="cart" onclick = "alert()">Beli Sekarang</a>
                             </div>
@@ -239,7 +239,7 @@
                             <img src="asset/cookieslogin.jpeg" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a data-toggle="tooltip" data-placement="right" title="View" onclick="alertdetail()"><i class="fas fa-eye text-light"></i></a></li>
+                                    <li><a href="detailcookies.php" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye text-light"></i></a></li>
                                 </ul>
                                 <a class="cart" onclick = "alert()">Beli Sekarang</a>
                             </div>
@@ -260,7 +260,7 @@
                             <img src="asset/sambalteman.jpeg" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a data-toggle="tooltip" data-placement="right" title="View" onclick="alertdetail()"><i class="fas fa-eye text-light"></i></a></li>
+                                    <li><a href="detailteman.php" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye text-light"></i></a></li>
                                 </ul>
                                 <a class="cart" onclick = "alert()">Beli Sekarang</a>
                             </div>
