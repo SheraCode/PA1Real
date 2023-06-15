@@ -24,7 +24,7 @@
                 <input type="hidden" value="3" name="produk">
                     <label for="floatingTextarea2"><b>Pertanyaan</b></label>
                     <div class="form-floating">
-  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"  name="pertanyaan"></textarea>
+  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"  name="pertanyaan" required></textarea>
 </div>
 <button class="btn btn-success mt-3"><b>Tanya</b></button>
                 </form>

@@ -17,7 +17,7 @@ move_uploaded_file($file_tmp, 'foto/' .$foto);
 //                     username = '$username',
 //                     nama_produk = '' ";
 
-$query = "INSERT INTO feedback (id_ulasan,urutan,review,akun_id,picture,username,nama_produk) VALUES ('$id_user','','$ulasan_produk','$id_user','$foto','$username','teman')";
+$query = "INSERT INTO feedback (id_ulasan,urutan,review,akun_id,picture,username,id_produk) VALUES ('$id_user','','$ulasan_produk','$id_user','$foto','$username',3)";
 
 mysqli_query($conn,$query)
 or die("SQL Error " .mysqli_error());

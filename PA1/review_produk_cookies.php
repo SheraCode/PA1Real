@@ -22,16 +22,15 @@ session_start();
     <form action="review_produk_cookies_process.php" method="post" enctype="multipart/form-data">
         <p class="h6 fw-bold mb-0 mt-3 text-center">Silahkan Review Produk dengan mengisikan Deskripsi Ulasan dan mengupload gambar Produk</p>
         <div class="form-outline mb-2">
-            <label class="form-label mt-3" for="form2Example27"><b>Username</b></label>
-            <input type="text" id="form2Example27" class="form-control form-control-lg" name="username" value="<?php echo $_SESSION['username']?>"/>
+            <input type="hidden" id="form2Example27" class="form-control form-control-lg" name="username" value="<?php echo $_SESSION['username']?>"/>
          </div>
         <div class="form-outline mb-2">
             <label class="form-label mt-3" for="form2Example27"><b>Upload Gambar Produk</b></label>
-            <input type="file" id="form2Example27" class="form-control form-control-lg" name="file_gambar" />
+            <input type="file" id="form2Example27" class="form-control form-control-lg" name="file_gambar" required/>
          </div>
          <div class="form-outline mb-2">
             <label class="form-label mt-3" for="form2Example27"><b>Ulasan Produk</b></label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="ulasan_produk"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="ulasan_produk" required></textarea>
          </div>
          <div class="form-outline mb-2">
             <button class="btn btn-success mt-3"><b>Review</b></button>

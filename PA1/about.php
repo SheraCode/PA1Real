@@ -259,15 +259,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
     </div>
 
 
-    <div class="products-box">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-all text-center">
-                        <h1>Pengiriman Produk Mauas JKM</h1>
-                    </div>
-                </div>
-            </div>
+
 
 
     <!-- Start Blog  -->

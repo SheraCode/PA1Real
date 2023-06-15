@@ -197,7 +197,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
 					<div class="card-header">
                     <?php 
                         require 'config.php';
-                        $data = mysqli_query($conn,"SELECT * FROM feedback  WHERE nama_produk LIKE '%cookies%'");
+                        $data = mysqli_query($conn,"SELECT * FROM feedback  WHERE id_produk = 2");
                         $jumlahdata = mysqli_num_rows($data);
                         ?>
 						<h2>Review Produk 10 dari <?php echo $jumlahdata; ?></h2>
@@ -205,7 +205,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
 					<div class="card-body">
                         <?php 
                         require 'config.php';
-                        $data = mysqli_query($conn,"SELECT * FROM feedback WHERE nama_produk LIKE '%cookies%'
+                        $data = mysqli_query($conn,"SELECT * FROM feedback WHERE id_produk = 2
                          ORDER BY urutan DESC LIMIT 10");
                         while($row=mysqli_fetch_array($data)) {
                         
@@ -235,6 +235,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
                         </div>
 					</div>
 				  </div>
+			</div>
 			</div>
 
            
