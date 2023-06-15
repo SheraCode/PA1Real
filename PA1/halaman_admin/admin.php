@@ -176,7 +176,7 @@
   <div class="row">
     <div class="col">
     <div class="card" style="width: 18rem;">
-  <img src="../asset/pesanancheckout.png" class="card-img-top" alt="...">
+  <img src="../asset/logocekout.png" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title"><b>
     Pesanan Checkout</b></h5>
@@ -197,7 +197,7 @@
     </div>
     <div class="col">
     <div class="card" style="width: 18rem;">
-  <img src="../asset/bayar12.png" class="card-img-top" alt="...">
+  <img src="../asset/logomenunggu.png" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title"><b>Konfirmasi Pembayaran</b></h5>
     <p class="card-text">Data dibawah adalah data secara keseluruhan.</p>
@@ -207,7 +207,7 @@
     </div>
     <div class="col">
     <div class="card" style="width: 18rem;">
-  <img src="../asset/pesananselesai.png" class="card-img-top" alt="...">
+  <img src="../asset/centangsukses.png" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title"><b>Pesanan Selesai</b></h5>
     <p class="card-text">Data dibawah adalah data secara keseluruha.</p>
