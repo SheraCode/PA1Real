@@ -183,7 +183,7 @@
                 <?php 
                 require '../config.php';
                 $id = $_GET['id'];
-                $data = mysqli_query($conn,"SELECT * FROM ((checkout_produk INNER JOIN akun ON checkout_produk.akun_id = akun.id_akun )INNER JOIN produk ON produk.id_produk = checkout_produk.nama_produk) WHERE id_checkout = '$id'");
+                $data = mysqli_query($conn,"SELECT * FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE id_checkout = '$id'");
                 foreach($data as $isi) {
                 ?>
                   <div class="d-flex align-items-center mb-3 pb-1">
@@ -192,8 +192,6 @@
                   </div>
                
                 <div class="form-outline mb-4">
-                  <input type="hidden" value="<?php echo $isi['nama_produk']?>" name="produk">
-                  <input type="hidden" value="<?php echo $isi['quantity']?>" name="quantity">
                   <input type="hidden" value="<?php echo $isi['tanggal_pemesanan']?>" name="tanggal_pemesanan">
                       <input type="text" id="form2Example17" class="form-control form-control-lg" name="username" value="<?php echo $isi['nama_lengkap']?>"/>
                       <label class="form-label" for="form2Example17"><b>Nama Lengkap</b></label>

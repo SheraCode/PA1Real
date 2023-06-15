@@ -14,6 +14,9 @@ session_start();
 <!-- Basic -->
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" />
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -70,8 +73,21 @@ session_start();
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-cart-fill"></i> Keranjang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
 
+                    <?php
+require_once 'config.php';
+$id_akun = $_SESSION["akun_id"];
+
+// Query untuk menghitung jumlah data
+$query = "SELECT COUNT(*) as total FROM chart WHERE id_user = '$id_akun'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$totalData = $row['total'];
+
+// Tampilkan jumlah data pada navbar
+echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-cart-fill"></i>(' . $totalData . ')</a></li>';
+?>
                         <li class="nav-item"><button class="btn btn-danger m-1"><a href="logout.php" class="h5 text-decoration-none">Log Out</a></button></li>
 
                     </ul>
@@ -135,28 +151,30 @@ session_start();
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
                     <div class="single-product-details">
+                        
                         <h2>Madu Mauas</h2>
-                        <h5>IDR. 150.000</h5>
-                        <?php
-                        require 'config.php';
-                            $data1 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE nama_produk = 1 AND status_bayar = 'Pesanan Selesai'");
-                            $count1 = mysqli_num_rows($data1);
 
-                        ?>
-                        <p class="available-stock"><span> Product Sold <?php echo $count1
-                        ?><p>
+                        <p>
 						<h4>Short Description:</h4>
 						<p>Madu Mauas adalah Madu asli hutan yang dimana madu ini dibuat dengan 100% berbahan alami dan madu ini di packaging dengan wadah kaca sehingga terlihat lebih elegan dan aman untuk disimpan beserta di konsumsi . </p>
 						<ul>
 							<li>
-                                <form action="belisekarang_madu.php" method="post">
+                                <form action="chart_process.php" method="post">
                                     <div class="form-group quantity-box">
                                         <label class="control-label"><b>Quantity</b></label>
-                                        <input class="form-control" value="0" min="0" max="20" type="number" name="Quantity">
+                            <input type="number" class="form-control" id="inputKuantitas" name="quantity">
+                            <input type="hidden" class="form-control" id="inputKuantitas" name="harga" value="<?php 
+                            require_once 'config.php';
+                            $query = "SELECT * FROM produk WHERE id_produk = 1";
+                            $result = mysqli_query($conn, $query);
+                            while ($data = mysqli_fetch_assoc($result)) {
+                                echo "$data[harga_produk]";
+                                } ?>">
+
                                     </div>
                                     <div class="price-box-bar">
 							<div class="cart-and-bay-btn">
-                                <button class="btn hvr-hover mt-3 text-light" >Beli Sekarang</button>
+                                <button class="btn hvr-hover mt-3 text-white" onclick="return validateInput()" ><b>Tambah Keranjang</b></button>
 							</div>
 						</div>
                                 </form>
@@ -339,6 +357,24 @@ session_start();
     <script src="js/form-validator.min.js"></script>
     <script src="js/contact-form-script.js"></script>
     <script src="js/custom.js"></script>
+    <script>
+  function validateInput() {
+    var inputKuantitas = document.getElementById('inputKuantitas');
+    var kuantitas = inputKuantitas.value;
+
+    if (kuantitas === "" || kuantitas <= 0) {
+      Swal.fire({
+        title: 'Peringatan',
+        text: 'Kuantitas harus diisi dengan angka lebih dari 0',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
+      return false; // Menghentikan aksi default tombol
+    }
+
+    return true; // Lanjutkan aksi default tombol
+  }
+</script>
 </body>
 
 </html>

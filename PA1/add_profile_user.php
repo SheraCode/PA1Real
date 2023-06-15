@@ -70,6 +70,21 @@ session_start();
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+
+                    <?php
+require_once 'config.php';
+$id_akun = $_SESSION["akun_id"];
+
+// Query untuk menghitung jumlah data
+$query = "SELECT COUNT(*) as total FROM chart WHERE id_user = '$id_akun'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$totalData = $row['total'];
+
+// Tampilkan jumlah data pada navbar
+echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-cart-fill"></i>(' . $totalData . ')</a></li>';
+?>
                         <li class="nav-item"><button class="btn btn-danger m-1"><a href="logout.php" class="h5 text-decoration-none">Log Out</a></button></li>
 
                     </ul>

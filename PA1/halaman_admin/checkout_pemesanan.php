@@ -149,6 +149,14 @@
                   <span>Pertanyaan</span>
                 </a>
               </li>
+              <li>
+                <a href="produk.php" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-bag-check-fill"></i>
+                  </span>
+                  <span>Produk</span>
+                </a>
+              </li>
             </li>
             </ul>
           </nav>
@@ -159,56 +167,47 @@
     <main class="mt-5 pt-3">
        <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12 fw-bold fs-3 text-center text-light">Data Pemesanan Checkout Produk Madu Mauas JKM</div> 
+            <div class="col-md-12 fw-bold fs-3 text-center text-light">Data Pemesanan Checkout Produk Mauas JKM</div> 
           </div>
           <div class="container text-center">
-  <div class="row mt-3 m-1 p-1">
-  <div class="container text-center">
-  <div class="row">
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/madulogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>
-    Madu Mauas</b></h5>
-    <p class="card-text">Data Dibawah ini Adalah Total Data Checkout Pemesanan dari Customer</p>
-    <?php 
-        require '../config.php';
-        $data1 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE status_bayar = 'Bayar Sekarang' AND nama_produk=1");
-        $count1 = mysqli_num_rows($data1);
-        $data2 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE status_bayar = 'Bayar Sekarang' AND nama_produk=2");
-        $count2 = mysqli_num_rows($data2);
-        $data3 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE status_bayar = 'Bayar Sekarang' AND nama_produk=3");
-        $count3 = mysqli_num_rows($data3);
-
+            <!-- Mulai darisini -->
+            <div class="container">
+              <div class="card">
+                <div class="card-body">
+                  <table class="table bg-dark text-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Tanggal Pemesanan</th>
+                            <th scope="col">Total Pembayaran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+require_once '..\config.php';
+$id_user = $_SESSION["akun_id"];
+$data = mysqli_query($conn, "SELECT * FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE status_bayar = 'Bayar Sekarang'");
+while ($d = mysqli_fetch_array($data)) {
     ?>
-    <a class="btn btn-warning" id="madumauas" onclick="madumauas()"><b><?php echo $count1?> Produk</b></a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/cookieslogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Cookies Mauas</b></h5>
-    <p class="card-text">Data Dibawah ini Adalah Total Data Checkout Pemesanan dari Customer</p>
-    <a class="btn btn-warning"><b><?php echo $count2?> Produk</b></a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/sambalTEMAN1.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Sambal Andaliman</b></h5>
-    <p class="card-text">Data Dibawah ini Adalah Total Data Checkout Pemesanan dari Customer</p>
-    <a class="btn btn-warning"><b><?php echo $count3?> Produk</b></a>
-  </div>
-</div>
-    </div>
-  </div>
-</div>
-  </div>
+    <tr>
+        <th scope="row"><?php echo $d['nama_lengkap'] ?></th>
+        <td>
+          <?php echo $d['tanggal_pemesanan']?>
+        </td>
+        <td>Rp.
+            <?php echo number_format($d['total_pembayaran'])?>
+        </td>
+
+    </tr>
+<?php } ?>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
        </div>
     </main>
 

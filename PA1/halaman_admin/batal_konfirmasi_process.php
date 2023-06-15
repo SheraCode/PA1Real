@@ -3,10 +3,7 @@ $tanggal = date('d-m-Y');
 $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
 $email = $_POST['email'];
 $pesan = $_POST['pesan'];
-$username = $_POST['username'];
 $id = $_POST['id'];
-$produk = $_POST['produk'];
-$quantity = $_POST['quantity'];
 
 echo $tanggal_pemesanan;
 
@@ -21,7 +18,7 @@ require 'vendor/autoload.php';
 require '../config.php';
 $query = "UPDATE checkout_produk SET status_bayar = 'Pesanan Dibatalkan' , Pembatalan = '$pesan' WHERE id_checkout = '$id'";
 mysqli_query($conn,$query);
-header("location:konfirmasi_madu.php");
+header("location:konfirmasi_pembayaran.php");
 
 if(isset($_POST['submit'])) {
 
@@ -54,14 +51,11 @@ if(isset($_POST['submit'])) {
         $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
         $email = $_POST['email'];
         $pesan = $_POST['pesan'];
-        $username = $_POST['username'];
-        $quantity = $_POST['quantity'];
-        $produk = $_POST['produk'];
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Pembatalan Pemesanan';
-        $mail->Body    = "Tobasa, <b>".$tanggal."</b><br> Perihal : Pembayaran Tidak Sesuai<br><br>"."<b>Rincian Pemesanan</b><br>"."Username : ".$username."<br>"."Tanggal Pemesanan : ".$tanggal_pemesanan."<br>Quantity : ".$quantity."<br>"."Nama Produk : ".$produk."<br>"."<b>Alasan Pembatalan Konfirmasi Pemesanan</b><br>".$pesan."<br><br><br><br><br>Salam,<br>Tim Mauas JKM<br><br><br><br>Butuh bantuan? Hubungi Kami umkmmauasjkm@gmail.com";
+        $mail->Body    = "Tobasa, <b>".$tanggal."</b><br> Perihal : Pembayaran Tidak Sesuai<br>"."Tanggal Pemesanan : ".$tanggal_pemesanan."<br><br>"."<b>Alasan Pembatalan Konfirmasi Pemesanan</b><br>".$pesan."<br><br><br><br><br>Salam,<br>Tim Mauas JKM<br><br><br><br>Butuh bantuan? Hubungi Kami umkmmauasjkm@gmail.com";
         //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     
         if($mail->send())

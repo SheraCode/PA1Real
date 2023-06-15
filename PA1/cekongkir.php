@@ -10,6 +10,7 @@
 
     $kota = $data->get_city();  
     $kota_array = json_decode($kota, true);
+        
 
 ?>
 <!DOCTYPE html>
@@ -84,7 +85,6 @@
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-cart-fill"></i>Keranjang</a></li>
                         <li class="nav-item"><button class="btn btn-danger m-1"><a href="logout.php" class="h5 text-decoration-none">Log Out</a></button></li>
 
                     </ul>
@@ -105,77 +105,75 @@
                         <b>Cek Ongkos Kirim Produk</b>
                     </div>
                     <div class="card-body bg-warning text-dark">
-                        <form id="form-cek-ongkir">
-                            <div class="form-group">
-                                <label for="kota_asal"><b>Kota Asal (Toba Samosir)</b></label>
-                                <select name="kota_asal" id="kota_asal" class="form-control">
-                                    <?php foreach($kota_array['rajaongkir']['results'] as $key =>$value) {
-                                        ?>
-                                    <option value="<?= $value['city_id']; ?>"> <?= $value['city_name']; ?></option>
-                                    <?php }?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="kota_asal"><b>Kota Tujuan</b></label>
-                                <select name="kota_asal" id="kota_tujuan" class="form-control">
-                                    <option value=""></option>
-                                    <?php foreach($kota_array['rajaongkir']['results'] as $key =>$value) {
-                                        ?>
-                                    <option value="<?= $value['city_id']; ?>"> <?= $value['city_name']; ?></option>
-                                    <?php }?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="berat"><b>Berat Produk (Gram)</b></label>
-                                <input type="number" id="berat" name="berat" class="form-control" min="1" max="30000">
-                                <!-- <label for="weight"><b>Pilih Produk</b></label>
-                                <select name="weight" id="weight" class="form-control" required>
-                                    <option value="">--PILIH PRODUK--</option>
-                                    <option value="100">Madu Mauas</option>
-                                    <option value="290">Cookies Mauas</option>
-                                    <option value="300">Sambal Teri Andaliman</option>
-                                </select> -->
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" id="btn-periksa-ongkir" class="btn btn-success"><b>Periksa Ongkir</b></button>
-                                <a href="about.php" class="btn btn-danger"><b>Kembali</b></a>
-                            </div>
-                            <div>
-                                <ul>
-                                <h2>Berat Produk</h2>
-                                <li><h4>Madu = 400 gram</h4></li>
-                                <li><h4>Cookies = 100 gram</h4></li>
-                                <li><h4>Sambal = 250 gram</h4></li>
-                                </ul>
-                            </div>
-                        </form>
+                    <form id="form-cek-ongkir" action="cost.php" method="POST">
+    <div class="form-group">
+        <label for="kota_asal"><b>Kota Asal (Toba Samosir)</b></label>
+        <select name="kota_asal" id="kota_asal" class="form-control">
+            <?php foreach ($kota_array['rajaongkir']['results'] as $key => $value) {
+                if ($value['city_name'] === 'Toba Samosir') {
+                    echo '<option value="' . $value['city_id'] . '" selected>' . $value['city_name'] . '</option>';
+                } else {
+                    echo '<option value="' . $value['city_id'] . '">' . $value['city_name'] . '</option>';
+                }
+            } ?>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="kota_tujuan"><b>Kota Tujuan</b></label>
+        <select name="kota_tujuan" id="kota_tujuan" class="form-control">
+            <option value=""></option>
+            <?php foreach ($kota_array['rajaongkir']['results'] as $key => $value) { ?>
+                <option value="<?= $value['city_id']; ?>"><?= $value['city_name']; ?></option>
+            <?php } ?>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" id="berat" name="berat" class="form-control" min="1" max="30000" value="<?php echo isset($_POST['berat']) ? $_POST['berat'] : ''; ?>">
+    </div>
+
+    <div class="form-group">
+        <button type="submit" id="btn-periksa-ongkir" class="btn btn-success" onclick="showOngkirContainer()"><b>Periksa Ongkir</b></button>
+        <a href="chart.php" class="btn btn-danger"><b>Kembali</b></a>
+    </div>
+</form>
+
                     </div>
                 </div>
             </div>
+
+                        
             <div class="col-md-8 mt-3">
                 <div class="card">
                     <div class="card-header bg-secondary text-light" id="hasil-pengecekan">
                         <b>Hasil Pengecekan</b>
                     </div>
                     <div class="card-body bg-opacity-50 text-dark">
-                        <table id="tabel-hasil-pengecekan" class="display">
-                            <thead >
-                                <tr>
-                                    <th width = "1%">No</th>
-                                    <th>Kurir</th>
-                                    <th>Jenis Layanan</th>
-                                    <th>Tarif</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-dark h5">
+                    <form id="form-cek-ongkir" action="process_ongkir.php" method="POST" enctype="multipart/form-data">                                        
+                                <div class="form-group">
+    <label for="kota_asal"><b>Ongkos Kirim</b></label>
+<input type="hidden" value="<?php echo isset($_POST['total']) ? $_POST['total'] : ''; ?>" name="total_pembayaran">
+<br>
 
-                            </tbody>
-                        </table>
+<input type="text" class="form-control" id="ongkir_input" readonly name="ongkir">
+<label for="kota_asal"><b>Upload Lampiran Keranjang</b></label>
+<br>
+<input type="file" name="lampiran_keranjang" required>
+</div>
+
+        
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success"><b>Tambahkan Ongkir</b></button>
+                                    </div>
+                                </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+  
+    
 
     <!-- Start Instagram Feed  -->
     <div class="instagram-box mt-5">
@@ -317,25 +315,27 @@
         });
 
         function hasil_pengecekan() {
-            $('#tabel-hasil-pengecekan').DataTable({
-                processing:true,
-                serverSide:true,
-                bDestroy:true,
-                responsive:true,
-                ajax: {
-                    url:'cost.php',
-                    type: 'POST',
-                    data: {
-                        kota_asal: $('#kota_asal').val(),
-                        kota_tujuan: $('#kota_tujuan').val(),
-                        berat: $('#berat').val(),
-                    },
-                    complete: function(data) {
-                        resetForm('form-cek-ongkir',['kota_asal','kota_tujuan']);
-                    }
-                }
-            });
+    $.ajax({
+        url: 'cost.php',
+        type: 'POST',
+        data: {
+            kota_asal: $('#kota_asal').val(),
+            kota_tujuan: $('#kota_tujuan').val(),
+            berat: $('#berat').val(),
+        },
+        success: function(response) {
+            var result = JSON.parse(response);
+            var ongkir = result.data[0][3]; // Ambil nilai ongkir dari response
+
+            $('#ongkir_input').val(ongkir); // Isi nilai ongkir pada input
+
+            resetForm('form-cek-ongkir', ['kota_asal', 'kota_tujuan']);
         }
+    });
+}
+
+
+
 
         function resetForm(form, select2 = []) {
             $('#'+form[0]).reset();
@@ -344,9 +344,19 @@
                 $.each(select2, function(k,v) {
                     $('#' + v).val('').trigger('change');
                 })
+
+                
             }
         }
     </script>
+
+<script>
+  function showOngkirContainer() {
+    var ongkirContainer = document.getElementById('ongkir-container');
+    ongkirContainer.style.display = 'block';
+  }
+</script>
+
 </body>
 
 </html>

@@ -150,28 +150,43 @@
     <div class="categories-shop">
         <div class="container">
             <div class="row">
+                <?php
+                require_once 'config.php';
+                $sql = "SELECT * FROM produk";
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0) {
+                    $counter = 0; // Counter untuk menghitung jumlah produk yang ditampilkan
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if ($counter % 3 == 0) {
+                            // Membuka baris baru setiap 3 produk
+                            echo '<div class="row">';
+                        }
+                ?>
+
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/madulogin.jpeg" alt="" />
-                        <a class="btn hvr-hover" href="detailmadu.php">Madu Mauas</a>
+                        <img class="img-fluid" src="asset/<?php echo $row['gambar']?>" alt="" />
+                        <a class="btn hvr-hover text-light" onclick="alertdetail()" ><?php echo $row['nama_produk']?></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/cookieslogin.jpeg" alt="" />
-                        <a class="btn hvr-hover" href="detailcookies.php">Cookies Mauas</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/sambalteman.jpeg" alt="" />
-                        <a class="btn hvr-hover" href="detailteman.php">Sambal Teri Andaliman (TEMAN)</a>
-                    </div>
-                </div>
+                <?php
+                        $counter++;
+                        if ($counter % 3 == 0) {
+                            // Menutup baris setiap 3 produk
+                            echo '</div>';
+                        }
+                    }
+                    if ($counter % 3 != 0) {
+                        // Menutup baris terakhir jika jumlah produk tidak kelipatan 3
+                        echo '</div>';
+                    }
+                }
+                ?>
+
             </div>
         </div>
     </div>
-        <!-- End Categories -->
+    <!-- End Categories -->
 	
 	<div class="box-add-products">
 		<div class="container">
@@ -196,84 +211,56 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="special-menu text-center">
-                        <div class="button-group filter-button-group">
-                            <button class="active" data-filter="*">All</button>
-                            <button data-filter=".top-featured">Top featured</button>
-                            <button data-filter=".best-seller">Best seller</button>
-                        </div>
-                    </div>
+
+
+
+
+            <?php 
+require_once 'config.php';
+$sql = "SELECT * FROM produk";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+    $counter = 0; // Counter untuk menghitung jumlah produk yang ditampilkan
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($counter % 3 == 0) {
+            // Membuka baris baru setiap 3 produk
+            echo '<div class="row">';
+        }
+?>
+    <div class="col-lg-4 col-md-6 special-grid best-seller">
+        <div class="products-single fix">
+            <div class="box-img-hover">
+                <div class="type-lb">
+                    <p class="sale">Mauas JKM</p>
+                </div>
+                <img src="asset/<?php echo $row['gambar']; ?>" class="img-fluid" alt="Image">
+                <div class="mask-icon">
+                    <ul>
+                        <li><a onclick="alertdetail()" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                    </ul>
+                    <a class="cart" href="<?php echo $row['link_beli']?>">Beli Sekarang</a>
                 </div>
             </div>
-
-            <div class="row special-list">
-                <div class="col-lg-4 col-md-6 special-grid best-seller">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="sale">Mauas JKM</p>
-                            </div>
-                            <img src="asset/madulogin.jpeg" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a href="detailmadu.php" data-toggle="tooltip" data-placement="right" title="View" ><i class="fas fa-eye text-light"></i></a></li>
-                                </ul>
-                                <a class="cart" onclick = "alert()">Beli Sekarang</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>Madu Mauas</h4>
-                            <h5><i class="bi bi-tags-fill"></i> IDR 150.000</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 special-grid top-featured">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="new">Mauas JKM</p>
-                            </div>
-                            <img src="asset/cookieslogin.jpeg" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a href="detailcookies.php" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye text-light"></i></a></li>
-                                </ul>
-                                <a class="cart" onclick = "alert()">Beli Sekarang</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>Cookies Mauas</h4>
-                            <h5><i class="bi bi-tags-fill"></i> IDR 25.000</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 special-grid top-featured">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="sale">Mauas JKM</p>
-                            </div>
-                            <img src="asset/sambalteman.jpeg" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a href="detailteman.php" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye text-light"></i></a></li>
-                                </ul>
-                                <a class="cart" onclick = "alert()">Beli Sekarang</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>Sambal Teri Andaliman</h4>
-                            <h5><i class="bi bi-tags-fill"></i> IDR 35.000</h5>
-                        </div>
-                    </div>
-                </div>
+            <div class="why-text">
+                <h4><?php echo $row['nama_produk']; ?></h4>
+                <h5><i class="bi bi-tags-fill"></i> IDR <?php echo number_format($row['harga_produk']); ?></h5>
             </div>
         </div>
     </div>
+<?php
+        $counter++;
+        if ($counter % 3 == 0) {
+            // Menutup baris setiap 3 produk
+            echo '</div>';
+        }
+    }
+    if ($counter % 3 != 0) {
+        // Menutup baris terakhir jika jumlah produk tidak kelipatan 3
+        echo '</div>';
+    }
+}
+?>
+
     <!-- End Products  -->
 
     <!-- Start Blog  -->
@@ -338,6 +325,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- End Blog  -->
 

@@ -1,6 +1,6 @@
 <?php
     class rajaongkir {
-        private $key = 'f5f79797e16628107e5efc2a6eb0f7d7';
+        private $key = '613fcbe3a6f7701bc9ff13cd65342096';
         private $city_url = 'https://api.rajaongkir.com/starter/city';
         private $cost_url = 'https://api.rajaongkir.com/starter/cost';
 

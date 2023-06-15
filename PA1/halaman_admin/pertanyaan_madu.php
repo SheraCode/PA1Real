@@ -142,11 +142,19 @@
                 </div>
               </div>
               <li>
-                <a href="pertanyaan.php" class="nav-link px-3">
+                <a href="pertanyaan.php" class="nav-link px-3 active">
                   <span class="me-2">
                     <i class="bi bi-question-octagon"></i>                  
                   </span>
                   <span>Pertanyaan</span>
+                </a>
+              </li>
+              <li>
+                <a href="produk.php" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-bag-check-fill"></i>
+                  </span>
+                  <span>Produk</span>
                 </a>
               </li>
             </li>

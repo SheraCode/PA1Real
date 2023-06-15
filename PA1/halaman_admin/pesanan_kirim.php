@@ -121,7 +121,7 @@
               <div class="collapse" id="collapseExample">
                 <div>
                  <ul class="navbar-nav ps-3">
-                    <a href="pesanan_kirim.php" class="nav-link px-3">
+                    <a href="pesanan_kirim.php" class="nav-link px-3 active">
                       <span class="me-2">
                         <i class="bi bi-layout-split"></i>
                       </span>
@@ -150,6 +150,14 @@
                   <span>Pertanyaan</span>
                 </a>
               </li>
+              <li>
+                <a href="produk.php" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-bag-check-fill"></i>
+                  </span>
+                  <span>Produk</span>
+                </a>
+              </li>
             </li>
             </ul>
           </nav>
@@ -163,53 +171,45 @@
             <div class="col-md-12 fw-bold fs-3 text-center text-light">Data Pesanan Dikirim Produk Mauas JKM</div> 
           </div>
           <div class="container text-center">
-  <div class="row mt-3 m-1 p-1">
-  <div class="container text-center">
-  <div class="row">
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/madulogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>
-    Madu Mauas</b></h5>
-    <p class="card-text">Data dibawah adalah data Pengiriman Produk Kepada Pembeli. </p>
-    <?php 
-        require '../config.php';
-        $data1 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE nama_produk = 1 AND status_bayar = 'Terkonfirmasi'");
-        $count1 = mysqli_num_rows($data1);
-        $data2 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE nama_produk = 2 AND status_bayar = 'Terkonfirmasi'");
-        $count2 = mysqli_num_rows($data2);
-        $data3 = mysqli_query($conn,"SELECT * FROM checkout_produk WHERE nama_produk = 3 AND status_bayar = 'Terkonfirmasi'");
-        $count3 = mysqli_num_rows($data3);
-
+            <!-- Mulai -->
+            <div class="container">
+              <div class="card">
+                <div class="card-body">
+                  <table class="table bg-dark text-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Alamat</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+require_once '..\config.php';
+$id_user = $_SESSION["akun_id"];
+$data = mysqli_query($conn, "SELECT * FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE status_bayar = 'Terkonfirmasi'");
+while ($d = mysqli_fetch_array($data)) {
     ?>
-    <a href="pesanan_kirim_madu.php" class="btn btn-primary"><?php echo $count1?> Produk</a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/cookieslogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Cookies Mauas</b></h5>
-    <p class="card-text">Data dibawah adalah data Pengiriman Produk Kepada Pembeli.</p>
-    <a href="pesanan_kirim_cookies.php" class="btn btn-primary"><?php echo $count2?> Produk</a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/sambalTEMAN1.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Sambal Andaliman</b></h5>
-    <p class="card-text">Data dibawah adalah data Pengiriman Produk Kepada Pembeli.</p>
-    <a href="pesanan_kirim_teman.php" class="btn btn-primary"><?php echo $count3?> Produk</a>
-  </div>
-</div>
-    </div>
-  </div>
-</div>
-  </div>
+    <tr>
+        <th scope="row"><?php echo $d['nama_lengkap'] ?></th>
+        <td>
+                  <?php echo $d['alamat']?>
+                </td>
+        <td>
+ <a href="pesanan_pengiriman_madu_process.php?id=<?= $d['id_checkout'] ?>" class="btn btn-success"><b>Kirim Produk</b></a>
+</td>
+
+    </tr>
+<?php } ?>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+   </div>
        </div>
     </main>
     

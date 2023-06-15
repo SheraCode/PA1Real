@@ -142,11 +142,19 @@
                 </div>
               </div>
               <li>
-                <a href="pertanyaan.php" class="nav-link px-3">
+                <a href="pertanyaan.php" class="nav-link px-3 active">
                   <span class="me-2">
                     <i class="bi bi-question-octagon"></i>                  
                   </span>
                   <span>Pertanyaan</span>
+                </a>
+              </li>
+              <li>
+                <a href="produk.php" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-bag-check-fill"></i>
+                  </span>
+                  <span>Produk</span>
                 </a>
               </li>
             </li>
@@ -159,7 +167,7 @@
     <main class="mt-5 pt-3">
        <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12 fw-bold fs-3 text-center text-light">Pertanyaan Produk Madu Mauas JKM</div> 
+            <div class="col-md-12 fw-bold fs-3 text-center text-light">Pertanyaan Produk Sambal Teri Andaliman Mauas JKM</div> 
 <div class="container">
   <div class="card">
     <div class="card-body">

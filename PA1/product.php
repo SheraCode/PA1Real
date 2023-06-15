@@ -18,7 +18,7 @@
 
     <!-- Site Metas -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <title>Home</title>
+    <title>Produk</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -86,8 +86,23 @@
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-cart-fill"></i> Keranjang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+
+                    <?php
+require_once 'config.php';
+$id_akun = $_SESSION["akun_id"];
+
+// Query untuk menghitung jumlah data
+$query = "SELECT COUNT(*) as total FROM chart WHERE id_user = '$id_akun'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$totalData = $row['total'];
+
+// Tampilkan jumlah data pada navbar
+echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-cart-fill"></i>(' . $totalData . ')</a></li>';
+?>
                         <li class="nav-item"><button class="btn btn-danger m-1"><a href="logout.php" class="h5 text-decoration-none">Log Out</a></button></li>
+                        
 
                     </ul>
                 </div>
@@ -100,34 +115,48 @@
     <!-- End Main Top -->
 
     
-    <!-- Start Categories  -->
-    <h2 class="h1 fw-bold mb-0 m-1 p-3 mt-3 text-center">Produk Olahan MauasJKM</h2>
+<!-- Start Categories  -->
+<h2 class="h1 fw-bold mb-0 m-1 p-3 mt-3 text-center">Produk Olahan MauasJKM</h2>
     <div class="categories-shop">
         <div class="container">
             <div class="row">
+                <?php
+                require_once 'config.php';
+                $sql = "SELECT * FROM produk";
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0) {
+                    $counter = 0; // Counter untuk menghitung jumlah produk yang ditampilkan
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if ($counter % 3 == 0) {
+                            // Membuka baris baru setiap 3 produk
+                            echo '<div class="row">';
+                        }
+                ?>
+
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/madulogin.jpeg" alt="" />
-                        <a class="btn hvr-hover" href="belilangsung_madu.php">Beli Sekarang</a>
+                        <img class="img-fluid" src="asset/<?php echo $row['gambar']?>" alt="" />
+                        <a class="btn hvr-hover" href="<?php echo $row['link_deskripsi']?>"><?php echo $row['nama_produk']?></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/cookieslogin.jpeg" alt="" />
-                        <a class="btn hvr-hover" href="belilangsung_cookies.php">Beli Sekarang</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/sambalteman.jpeg" alt="" />
-                        <a class="btn hvr-hover" href="belilangsung_teman.php">Beli Sekarang</a>
-                    </div>
-                </div>
+                <?php
+                        $counter++;
+                        if ($counter % 3 == 0) {
+                            // Menutup baris setiap 3 produk
+                            echo '</div>';
+                        }
+                    }
+                    if ($counter % 3 != 0) {
+                        // Menutup baris terakhir jika jumlah produk tidak kelipatan 3
+                        echo '</div>';
+                    }
+                }
+                ?>
+
             </div>
         </div>
     </div>
-    <!-- End Categories -->
-	
+    <!-- End Categories -->	
 
 
 
