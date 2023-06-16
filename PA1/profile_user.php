@@ -203,8 +203,56 @@ if(!isset($_SESSION['username'])) {
 <li class="nav-item" role="presentation">
 <button class="nav-link" id="pills-selesai-tab" data-bs-toggle="pill" data-bs-target="#pills-selesai" type="button" role="tab" aria-controls="pills-selesai" aria-selected="false">Pesanan Selesai</button>
 </li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="pills-dibatalkan-tab" data-bs-toggle="pill" data-bs-target="#pills-dibatalkan" type="button" role="tab" aria-controls="pills-dibatalkan" aria-selected="false">Pesanan Dibatalkan</button>
+</li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
+
+<div class="tab-pane fade m-2" id="pills-dibatalkan" role="tabpanel" aria-labelledby="pills-dibatalkan-tab" tabindex="0">
+<div class="container mt-5">
+            <div class="card">
+                <div class="card-header text-center">
+                    <b>Data Pesanan Dibatalkan</b>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Total Harga</th>
+                            <th scope="col">Alasan Pembatalan</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            require_once 'config.php';
+                            $id_user =$_SESSION["akun_id"];
+                            $data = mysqli_query($conn, "SELECT * FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE status_bayar = 'Pesanan Dibatalkan' AND akun_id = '$id_user'");
+                            while($d = mysqli_fetch_array($data))
+{?>  
+                            
+                          <tr>
+                            <th scope="row"><?php echo $d['nama_lengkap']?></th>
+                            <td>Rp <?php echo number_format($d['total_pembayaran']) ?></td>
+                            <th scope="row"><?php echo $d['pembatalan']?></th>
+                          </tr>
+                          <?php }?>
+                        </tbody> 
+                      </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+                    </div>
+
+
+
 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
 <div class="container mt-5">

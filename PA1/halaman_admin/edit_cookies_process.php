@@ -16,38 +16,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($fileError === UPLOAD_ERR_OK) {
         // Mendapatkan ekstensi file
         $fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
-        // Menghasilkan nama unik untuk file
-        $newFileName = uniqid() . '.' . $fileExt;
-        // Lokasi penyimpanan file
-        $uploadPath = '../asset/' . $newFileName;
+        $allowedExtensions = array('jpeg', 'jpg', 'png');
 
-        // Pindahkan file ke lokasi penyimpanan
-        if (move_uploaded_file($fileTmp, $uploadPath)) {
-            // Update data produk beserta gambar baru ke dalam database
-            $sql = "UPDATE produk SET nama_produk = '$namaproduk', harga_produk = '$harga_produk', gambar = '$newFileName' WHERE id_produk = 2";
-            $result = mysqli_query($conn, $sql);
+        if (in_array(strtolower($fileExt), $allowedExtensions)) {
+            // Menghasilkan nama unik untuk file
+            $newFileName = uniqid() . '.' . $fileExt;
+            // Lokasi penyimpanan file
+            $uploadPath = '../asset/' . $newFileName;
 
-            if ($result) {
-                // Berhasil mengupdate data produk
-                echo '<script>
-                    alert("Produk berhasil diubah");
-                    window.location.href = "edit_cookies.php";
-                </script>';
-                exit;
+            // Pindahkan file ke lokasi penyimpanan
+            if (move_uploaded_file($fileTmp, $uploadPath)) {
+                // Update data produk beserta gambar baru ke dalam database
+                $sql = "UPDATE produk SET nama_produk = '$namaproduk', harga_produk = '$harga_produk', gambar = '$newFileName' WHERE id_produk = 2";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    // Berhasil mengupdate data produk
+                    echo '<script>
+                        alert("Produk berhasil diubah");
+                        window.location.href = "edit_cookies.php";
+                    </script>';
+                    exit;
+                } else {
+                    // Gagal mengupdate data produk
+                    echo '<script>
+                        alert("Gagal mengubah data produk: ' . mysqli_error($conn) . '");
+                        window.location.href = "edit_cookies.php";
+                    </script>';
+                    exit;
+                }
             } else {
-                // Gagal mengupdate data produk
+                // Gagal mengunggah gambar
                 echo '<script>
-                    alert("Gagal mengubah data produk: ' . mysqli_error($conn) . '");
+                    alert("Gagal mengunggah gambar");
                     window.location.href = "edit_cookies.php";
                 </script>';
                 exit;
             }
         } else {
-            // Gagal mengunggah gambar
+            // File yang diunggah harus dalam format JPEG, JPG, atau PNG
             echo '<script>
-                alert("Gagal mengunggah gambar");
+                alert("File yang diunggah harus dalam format JPEG, JPG, atau PNG");
                 window.location.href = "edit_cookies.php";
-
             </script>';
             exit;
         }

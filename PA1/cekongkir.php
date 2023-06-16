@@ -85,6 +85,21 @@
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+
+<?php
+require_once 'config.php';
+$id_akun = $_SESSION["akun_id"];
+
+// Query untuk menghitung jumlah data
+$query = "SELECT COUNT(*) as total FROM chart WHERE id_user = '$id_akun'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$totalData = $row['total'];
+
+// Tampilkan jumlah data pada navbar
+echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-cart-fill"></i>(' . $totalData . ')</a></li>';
+?>
                         <li class="nav-item"><button class="btn btn-danger m-1"><a href="logout.php" class="h5 text-decoration-none">Log Out</a></button></li>
 
                     </ul>
@@ -150,23 +165,40 @@
                         <b>Hasil Pengecekan</b>
                     </div>
                     <div class="card-body bg-opacity-50 text-dark">
-                    <form id="form-cek-ongkir" action="process_ongkir.php" method="POST" enctype="multipart/form-data">                                        
-                                <div class="form-group">
+
+
+                    <script>
+document.getElementById('form-cek-ongkir').addEventListener('submit', function(event) {
+  var fileInput = document.getElementById('lampiran_keranjang');
+  var file = fileInput.files[0];
+  var fileSize = file.size;
+  var allowedExtensions = /(\.jpeg|\.jpg|\.png)$/i;
+  var maxSize = 5 * 1024 * 1024; // 5 MB
+
+  if (!allowedExtensions.exec(file.name) || fileSize > maxSize) {
+    event.preventDefault(); // Menghentikan pengiriman formulir
+
+    alert('File yang diunggah harus dalam format JPEG, JPG, atau PNG dengan ukuran di bawah 5 MB.');
+
+    fileInput.value = ''; // Mengosongkan input file
+  }
+});
+</script>
+
+<form id="form-cek-ongkir" action="process_ongkir.php" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
     <label for="kota_asal"><b>Ongkos Kirim</b></label>
-<input type="hidden" value="<?php echo isset($_POST['total']) ? $_POST['total'] : ''; ?>" name="total_pembayaran">
-<br>
-
-<input type="text" class="form-control" id="ongkir_input" readonly name="ongkir">
-<label for="kota_asal"><b>Upload Lampiran Keranjang</b></label>
-<br>
-<input type="file" name="lampiran_keranjang" required>
-</div>
-
-        
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-success"><b>Tambahkan Ongkir</b></button>
-                                    </div>
-                                </form>
+    <input type="hidden" value="<?php echo isset($_POST['total']) ? $_POST['total'] : ''; ?>" name="total_pembayaran">
+    <br>
+    <input type="text" class="form-control" id="ongkir_input" readonly name="ongkir" required>
+    <label for="kota_asal"><b>Upload Screenshot Keranjang</b></label>
+    <br>
+    <input type="file" name="lampiran_keranjang" id="lampiran_keranjang" accept=".jpeg, .jpg, .png" required>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-success"><b>Tambahkan Ongkir</b></button>
+  </div>
+</form>
                     </div>
                 </div>
             </div>

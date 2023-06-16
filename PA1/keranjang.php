@@ -52,7 +52,7 @@ require 'config.php';
     <![endif]-->
     <style>
         body {
-            background-image: url(asset/background_login.jpeg);
+            background-image: url();
             
         }
 

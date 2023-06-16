@@ -52,7 +52,7 @@ require 'config.php';
     <![endif]-->
     <style>
         body {
-            background-image: url(asset/background_login.jpeg);
+            background-image: url();
             
         }
 
@@ -108,6 +108,7 @@ require 'config.php';
                     <?php
 require_once 'config.php';
 $id_akun = $_SESSION["akun_id"];
+
 
 // Query untuk menghitung jumlah data
 $query = "SELECT COUNT(*) as total FROM chart WHERE id_user = '$id_akun'";
@@ -183,7 +184,8 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
 
         <?php
             require_once 'config.php';
-            $query = "SELECT SUM(total_harga) AS total_harga, SUM(berat) AS berat FROM chart";
+            $id_akun = $_SESSION['akun_id'];
+            $query = "SELECT SUM(total_harga) AS total_harga, SUM(berat) AS berat FROM chart WHERE id_user = '$id_akun'";
             $result = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($result);
             $total_harga = $row['total_harga'];
@@ -209,6 +211,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
                         <?php
                         if($total_harga > 1) { ?>
                             <button class="btn btn-success" onclick="takeScreenshot()"><b>Tambah Ongkos Kirim</b></button>
+                            <h4 class="text-danger"><b>*Silahkan Screenshot Keranjang sebelum Tambah Ongkir</b></h4>
                         <?php } ?>
                         <?php
                         if($total_harga == 0) { ?>
