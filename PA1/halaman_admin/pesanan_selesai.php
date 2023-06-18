@@ -180,7 +180,7 @@ Total Pesanan Selesai<?php
                             <th scope="col">Nama</th>
                             <th scope="col">Lampiran Keranjang</th>
                             <th scope="col">Bukti</th>
-                            <th scope="col">Alamat</th>
+                            <th scope="col">Total Belanja</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -202,8 +202,7 @@ while ($d = mysqli_fetch_array($data)) {
             } else {
                 echo "Gambar tidak ditemukan.";
             }
-            ?>
-        </td>
+            ?>        </td>
         <td>
             <?php
             $imagePath = '../buktibayar/' . $d['bukti_bayar'];
@@ -216,8 +215,8 @@ while ($d = mysqli_fetch_array($data)) {
             }
             ?>
         </td>
-        <td>
-          <?php echo $d['alamat']?>
+        <td>Rp. 
+        <?php echo number_format($d['total_pembayaran'])?>
         </td>
 
     </tr>
@@ -226,6 +225,50 @@ while ($d = mysqli_fetch_array($data)) {
 
                     </tbody>
                   </table>
+                  <div class="card bg-dark">
+                    <div class="card-body">
+                    <?php
+// Total pembayaran per hari
+$queryPerHari = "SELECT DATE_FORMAT(tanggal_pemesanan, '%d %M %Y') AS tanggal, SUM(total_pembayaran) AS total_perhari FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE status_bayar = 'Pesanan Selesai' GROUP BY tanggal_pemesanan";
+$resultPerHari = mysqli_query($conn, $queryPerHari);
+
+if (mysqli_num_rows($resultPerHari) > 0) {
+    while ($row = mysqli_fetch_assoc($resultPerHari)) {
+        $tanggal = $row['tanggal'];
+        $totalPerHari = $row['total_perhari'];
+    }
+} else {
+    $totalPerHari = 0;
+}
+
+// Total pembayaran per bulan
+$queryPerBulan = "SELECT DATE_FORMAT(tanggal_pemesanan, '%M %Y') AS bulan, SUM(total_pembayaran) AS total_perbulan FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE status_bayar = 'Pesanan Selesai' GROUP BY MONTH(tanggal_pemesanan), YEAR(tanggal_pemesanan)";
+$resultPerBulan = mysqli_query($conn, $queryPerBulan);
+
+if (mysqli_num_rows($resultPerBulan) > 0) {
+    while ($row = mysqli_fetch_assoc($resultPerBulan)) {
+        $bulan = $row['bulan'];
+        $totalPerBulan = $row['total_perbulan'];
+    }
+} else {
+    $totalPerBulan = 0;
+}
+
+// Total pembayaran semua
+$queryTotal = "SELECT SUM(total_pembayaran) AS total_semua FROM checkout_produk INNER JOIN akun ON akun.id_akun = checkout_produk.akun_id WHERE status_bayar = 'Pesanan Selesai'";
+$resultTotal = mysqli_query($conn, $queryTotal);
+$rowTotal = mysqli_fetch_assoc($resultTotal);
+$totalSemua = $rowTotal['total_semua'];
+
+?>
+
+<h3 class="text-light text-start"><b>Total Omzet Perhari : Rp. <?php echo ($totalPerHari > 0) ? number_format($totalPerHari) : 'Anda belum mempunyai omset'; ?>,-</b></h3>
+<h3 class="text-light text-start"><b>Total Omzet Perbulan : Rp. <?php echo ($totalPerBulan > 0) ? number_format($totalPerBulan) : 'Anda belum mempunyai omset'; ?>,-</b></h3>
+<h3 class="text-light text-start"><b>Total Omzet Semua : Rp. <?php echo ($totalSemua > 0) ? number_format($totalPerBulan) : 'Anda belum mempunyai omset'; ?>,-</b></h3>
+
+                    </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
