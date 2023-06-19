@@ -166,7 +166,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
                             while ($data = mysqli_fetch_assoc($result)) {
                                 echo "$data[harga_produk]";
                                 } ?>">
-                            <input type="number" class="form-control" id="inputKuantitas" name="quantity">
+                            <input type="number" min="1" class="form-control" id="inputKuantitas" name="quantity">
                                     </div>
                                     <div class="price-box-bar">
 							<div class="cart-and-bay-btn">
