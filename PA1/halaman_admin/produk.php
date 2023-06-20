@@ -165,51 +165,53 @@
       </div> 
     <!-- offcanvas -->
     <main class="mt-5 pt-3">
-       <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12 fw-bold fs-3 text-center text-light">Produk Mauas JKM</div> 
-<div class="container">
-<div class="row mt-3 m-1 p-1">
-  <div class="container text-center">
-  <div class="row">
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/madulogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>
-    Madu Mauas</b></h5>
-    <p class="card-text"> Lihat Detail Produk. </p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3 text-center text-light">Produk Mauas JKM</div> 
+    </div>
 
-    <a href="edit_madu.php" class="btn btn-primary">  <b>Lihat Detail</b></a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/cookieslogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Cookies Mauas</b></h5>
-    <p class="card-text"> Lihat Detail Produk.</p>
-    <a href="edit_cookies.php" class="btn btn-primary"> <b>Lihat Detail</b></a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/sambalTEMAN1.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Sambal Andaliman</b></h5>
-    <p class="card-text"> Lihat Detail Produk.</p>
-    <a href="edit_teman.php" class="btn btn-primary"> <b>Lihat Detail</b></a>
-  </div>
-</div>
-    </div>
-  </div>
+    <div class="container">
+      <a href="tambah_produk.php" class="btn btn-success">Tambah Produk</a>
+      <div class="row mt-3 m-1 p-1">
 
-</div>
+      <?php
+
+        // Koneksi ke database
+        require_once '../config.php';
+
+
+        // Query untuk mengambil data produk
+        $query = "SELECT * FROM produk";
+        $result = mysqli_query($conn, $query);
+
+        // Tampilkan data produk
+        while ($row = mysqli_fetch_assoc($result)) {
+          $id_produk = $row['id_produk'];
+          $gambar = $row['gambar_1'];
+          $nama_produk = $row['nama_produk'];
+
+          echo '
+            <div class="col m-3 p-2">
+              <div class="card" style="width: 18rem;">
+                <img src="'.$gambar.'" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title tex-center"><b>'.$nama_produk.'</b></h5>
+                  <p class="card-text text-center">Lihat Detail Produk.</p>
+                  <a href="edit_produk.php?id='.$id_produk.'" class="btn btn-primary container"><b>Lihat Detail</b></a>
+                </div>
+              </div>
+            </div>
+          ';
+        }
+
+        // Tutup koneksi database
+        mysqli_close($conn);
+      ?>
+
+      </div>
+    </div>
   </div>
-       </div>
-    </main>
+</main>
 
 
     

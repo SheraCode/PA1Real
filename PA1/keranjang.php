@@ -103,7 +103,7 @@ require 'config.php';
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                     <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Questions</a></li>
                      <?php
                 require_once 'config.php';
                 $id_akun = $_SESSION["akun_id"];
@@ -131,109 +131,39 @@ require 'config.php';
 <!-- mulai keranjang disini -->
 
 <!-- akhir keranjang disini -->
-     
+<?php
+require_once 'config.php';
+// session_start();
+$id_akun = $_SESSION['akun_id'];
+// Query untuk mengambil data produk dari tabel produk
+$query = "SELECT * FROM pertanyaan INNER JOIN produk ON pertanyaan.id_produk = produk.id_produk WHERE id_user = '$id_akun'";
+$result = mysqli_query($conn, $query);
+
+// Cek apakah ada data produk
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+
+    ?>
+
      <div class="container mt-5">
-     <h2 class="text-dark"><b>Tabel Pertanyaan</b></h2>
-     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-       <li class="nav-item" role="presentation">
-         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Madu</button> 
-       </li>
-       <li class="nav-item" role="presentation">
-         <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Cookies</button>
-       </li>
-       <li class="nav-item" role="presentation">
-         <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Sambal</button>
-       </li>
-     </ul>
-     <div class="tab-content" id="pills-tabContent">
-     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-       <?php
-       // Periksa apakah 'id_akun' ada dalam $_SESSION
-       if (isset($_SESSION['akun_id'])) {
-           $id_akun = $_SESSION['akun_id'];
-     
-           // Ambil data akun dari database berdasarkan id_akun
-           $query = mysqli_query($conn, "SELECT * FROM akun WHERE id_akun = '$id_akun'");
-           $akun = mysqli_fetch_assoc($query);
-     
-           // Periksa apakah akun ditemukan
-           if ($akun) {
-               // Lanjutkan dengan kode yang lain
-               $id_user = $akun['id_akun'];
-               $madu = mysqli_query($conn, "SELECT pertanyaan, jawaban FROM pertanyaan INNER JOIN akun ON pertanyaan.id_user = akun.id_akun WHERE pertanyaan.id_produk = 1 AND pertanyaan.id_user = '$id_user'");
-     
-               if ($madu) {
-                   while ($madup = mysqli_fetch_assoc($madu)) { ?>
-                       <div class="row gy-3 my-3" style="background-color:white;">
-                           <div class="col-lg-6">
-                               <img src="asset/madulogin.jpeg" class="d-block w-100" alt="...">
-                           </div>
-                           <div class="card-body col-lg-6">
-                               <h2 class="card-title"><b>Madu</b></h2>
-                               <div class="card">
-                                   <div class="card-header">
-                                       <b>PERTANYAAN</b>
-                                   </div>
-                                   <div class="card-body">
-                                       <h3 class="card-title"><?php echo $madup['pertanyaan']; ?></h3>
-                                   </div>
-                               </div>
-                               <div class="card">
-                                   <div class="card-header">
-                                       <b>JAWABAN</b>
-                                   </div>
-                                   <div class="card-body">
-                                   <h3 class="card-title"><?php echo $madup['jawaban']; ?></h3>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-       <?php
-                   }
-               } else {
-                   echo "Query error: " . mysqli_error($conn); // Menampilkan pesan error jika terjadi kesalahan dalam query
-               }
-           } else {
-               echo "Akun tidak ditemukan.";
-           }
-       } else {
-           echo "ID akun tidak tersedia dalam sesi.";
-       }
-       ?>
-     </div>
-       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-       <?php
-     
-     // Periksa apakah 'id_akun' ada dalam $_SESSION
-     if (isset($_SESSION['akun_id'])) {
-       $id_akun = $_SESSION['akun_id'];
-     
-     
-       // Ambil data akun dari database berdasarkan id_akun
-       $query = mysqli_query($conn, "SELECT * FROM akun WHERE id_akun = '$id_akun'");
-       $akun = mysqli_fetch_assoc($query);
-     
-       // Periksa apakah akun ditemukan
-       if ($akun) {
-         // Lanjutkan dengan kode yang lain
-         $id_user = $akun['id_akun'];
-         $cookies = mysqli_query($conn, "SELECT pertanyaan,jawaban FROM pertanyaan INNER JOIN akun ON pertanyaan.id_user = akun.id_akun WHERE pertanyaan.id_produk = 2 AND pertanyaan.id_user = '$id_user'");
-       
-     
-         if ($cookies) {
-           while ($cookiesp = mysqli_fetch_assoc($cookies)) { ?>
-               <div class="row gy-3 my-3" style="background-color:white;">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2><b>Pertanyaan Produk <?php echo $row['nama_produk']?></b></h2>
+            </div>
+            <div class="card-body bg-secondary">
+
+     <div class="row gy-3 my-3" style="background-color:white;">
                    <div class="col-lg-6">
-                   <img class="img-fluid" src="asset/cookies.jpeg" alt="" />
+                   <img class="img-fluid" src="asset/Q&A.png" alt="" />
                    </div>
                    <div class="card-body col-lg-6">
-                       <h2 class="card-title"><b>Cookies</b></h2>
+                       <h2 class="card-title"><b></b></h2>
                        <div class="card">
                            <div class="card-header">
                                <b>PERTANYAAN</b>
                            </div>
                            <div class="card-body">
-                               <h3 class="card-title"><?php echo $cookiesp['pertanyaan']; ?></h3>
+                               <h3 class="card-title"><?php echo $row['pertanyaan']?></h3>
                            </div>
                        </div>
                        <div class="card">
@@ -241,88 +171,16 @@ require 'config.php';
                                <b>JAWABAN</b>
                            </div>
                            <div class="card-body">
-                           <h3 class="card-title"><?php echo $cookiesp['jawaban']; ?></h3>
+                           <h3 class="card-title"><?php echo $row['jawaban']?></h3>
                            </div>
                        </div>
                    </div>
                </div>
-           <?php } ?>
-         <?php } else {
-             echo "Query error: " . mysqli_error($conn); // Menampilkan pesan error jika terjadi kesalahan dalam query
-         }
-     } else {
-         echo "Akun tidak ditemukan.";
-     }
-     } else {
-     echo "ID akun tidak tersedia dalam sesi.";
-     }
-     ?>
-     
-     
-       </div>
-     
-       <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-       <?php
-     
-     // Periksa apakah 'id_akun' ada dalam $_SESSION
-     if (isset($_SESSION['akun_id'])) {
-       $id_akun = $_SESSION['akun_id'];
-     
-       // Ambil data akun dari database berdasarkan id_akun
-       $query = mysqli_query($conn, "SELECT * FROM akun WHERE id_akun = '$id_akun'");
-       $akun = mysqli_fetch_assoc($query);
-     
-       // Periksa apakah akun ditemukan
-       if ($akun) {
-         // Lanjutkan dengan kode yang lain
-         $id_user = $akun['id_akun'];
-         $sambal = mysqli_query($conn, "SELECT pertanyaan,jawaban FROM pertanyaan INNER JOIN akun ON pertanyaan.id_user = akun.id_akun WHERE pertanyaan.id_produk = 3 AND pertanyaan.id_user = '$id_user'");
-     
-         if ($sambal) { ?>
-     
-           <?php  foreach ($sambal as $sambalp) { ?>
-             <div class="row gy-3 my-3" style="background-color:white;" >
-                   <div class="col-lg-6">
-                   <img class="img-fluid" src="asset/sambalteman.jpeg" alt="" />
-                   </div>
-     
-                   <div class="card-body col-lg-6">
-                           <h2 class="card-title"><b>Sambal</b></h2>
-                           <div class="card">
-                           <div class="card-header">
-                               <b>PERTANYAAN</b>
-                           </div>
-                           <div class="card-body">
-                               <h3 class="card-title"><?php echo $sambalp['pertanyaan']; ?></h3>
-                           </div>
-                       </div>
-                       <div class="card">
-                           <div class="card-header">
-                               <b>JAWABAN</b>
-                           </div>
-                           <div class="card-body">
-                           <h3 class="card-title"><?php echo $sambalp['jawaban']; ?></h3>
-                           </div>
-                       </div>
-                   </div>
-             </div>
-           <?php } ?>
-         <?php } else {
-             echo "Query error: " . mysqli_error($conn); // Menampilkan pesan error jika terjadi kesalahan dalam query
-         }
-     } else {
-         echo "Akun tidak ditemukan.";
-     }
-     } else {
-     echo "ID akun tidak tersedia dalam sesi.";
-     }
-     ?>
-       </div>
-     </div>
-     </div>
-     
-        </div>
     </div>
+    <?php } 
+    }?>
+            </div>
+        </div>
 
     <!-- Start Instagram Feed  -->
     <div class="instagram-box mt-5">

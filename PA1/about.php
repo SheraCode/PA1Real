@@ -86,7 +86,7 @@
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Questions</a></li>
 
                     <?php
 require_once 'config.php';
@@ -113,53 +113,53 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
     </header>
     <!-- End Main Top -->
 
-    <!-- Start Slider -->
+<!-- Slider Dinamis Coba -->
+<?php
+require_once 'config.php';
+
+// Query untuk mengambil data carousel dari tabel carousel
+$query = "SELECT * FROM produk";
+$result = mysqli_query($conn, $query);
+
+// Cek apakah ada data carousel
+if (mysqli_num_rows($result) > 0) {
+    ?>
     <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">
-            <li class="text-center">
-                <img src="asset/MauasMadu.jpeg" alt="">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Welcome To <br> MauasJKM</strong></h1>
-                            <p class="m-b-40">Madu MauasJKM </p>
-                            <p><a class="btn hvr-hover" href="belilangsung_madu.php">Shop Now</a></p>
+            <?php
+            // Looping untuk menampilkan setiap data carousel
+            while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                <li class="text-center">
+                    <img src="halaman_admin/<?php echo $row['gambar_1']; ?>" alt="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 class="m-b-20"><strong><?php echo $row['nama_produk']; ?></strong></h1>
+                                <!-- <p class="m-b-40"><?php echo $row['deskripsi_produk']; ?></p> -->
+                                <p><a class="btn hvr-hover" href="produk_mauas.php?id_produk=<?php echo $row['id_produk']; ?>">Shop Now</a></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="text-center">
-                <img src="asset/background_login.jpeg" alt="">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Welcome To <br> MauasJKM</strong></h1>
-                            <p class="m-b-40">Cookies MauasJKM </p>
-                            <p><a class="btn hvr-hover" href="belilangsung_cookies.php">Shop Now</a></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="text-center">
-                <img src="asset/sambaltemanlogin.jpeg" alt="">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Welcome To <br> MauasJKM</strong></h1>
-                            <p class="m-b-40">Sambal TEMAN(Teri Andaliman)</p>
-                            <p><a class="btn hvr-hover" href="belilangsung_teman.php">Shop Now</a></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
         <div class="slides-navigation">
             <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
             <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
         </div>
     </div>
-    <!-- End Slider -->
+    <?php
+} else {
+    // Tampilkan pesan jika tidak ada data carousel
+    echo "No carousel data found.";
+}
+?>
 
+
+<!-- Akhir Slider Otomatis coba -->
     <!-- Start Categories  -->
     <h2 class="h1 fw-bold mb-0 m-1 p-3 mt-3 text-center">Sertifikat Produksi Pangan Industri Rumah Tangga UMKM Mauas JKM</h2>
     <div class="categories-shop">

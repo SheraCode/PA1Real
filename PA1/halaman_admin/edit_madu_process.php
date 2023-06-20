@@ -1,73 +1,45 @@
 <?php
+// Mengambil data yang dikirim melalui form
+$namaproduk = $_POST['namaproduk'];
+$beratProduk = $_POST['beratproduk'];
+$harga_produk = $_POST['harga'];
+$id_produk = $_POST['id_produk'];
+$deskripsi = $_POST['deskripsi'];
+
+// Mendapatkan informasi file gambar yang diupload
+$gambar1 = "produk/" . $_FILES['gambar_1']['name'];
+$gambar2 = "produk/" . $_FILES['gambar_2']['name'];
+$gambar3 = "produk/" . $_FILES['gambar_3']['name'];
+
+// Koneksi ke database
 require_once '../config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $namaproduk = $_POST['namaproduk'];
-    $harga_produk = $_POST['harga'];
 
-    // Mengambil informasi file gambar yang diupload
-    $file = $_FILES['gambar'];
-    $fileName = $file['name'];
-    $fileTmp = $file['tmp_name'];
-    $fileSize = $file['size'];
-    $fileError = $file['error'];
+// Mengedit data produk dalam database
+$query = "UPDATE produk SET nama_produk='$namaproduk', deskripsi_produk = '$deskripsi',berat_produk='$beratProduk', harga_produk='$harga_produk',gambar_1 = '$gambar1', gambar_2 = '$gambar2', gambar_3 = '$gambar3' WHERE id_produk='$id_produk'";
+$result = mysqli_query($conn, $query);
 
-    // Cek apakah ada file gambar yang diupload
-    if ($fileError === UPLOAD_ERR_OK) {
-        // Mendapatkan ekstensi file
-        $fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
-        $allowedExtensions = array('jpeg', 'jpg', 'png');
-
-        if (in_array(strtolower($fileExt), $allowedExtensions)) {
-            // Menghasilkan nama unik untuk file
-            $newFileName = uniqid() . '.' . $fileExt;
-            // Lokasi penyimpanan file
-            $uploadPath = '../asset/' . $newFileName;
-
-            // Pindahkan file ke lokasi penyimpanan
-            if (move_uploaded_file($fileTmp, $uploadPath)) {
-                // Update data produk beserta gambar baru ke dalam database
-                $sql = "UPDATE produk SET nama_produk = '$namaproduk', harga_produk = '$harga_produk', gambar = '$newFileName' WHERE id_produk = 1";
-                $result = mysqli_query($conn, $sql);
-
-                if ($result) {
-                    // Berhasil mengupdate data produk
-                    echo '<script>
-                        alert("Produk berhasil diubah");
-                        window.location.href = "edit_madu.php";
-                    </script>';
-                    exit;
-                } else {
-                    // Gagal mengupdate data produk
-                    echo '<script>
-                        alert("Gagal mengubah data produk: ' . mysqli_error($conn) . '");
-                        window.location.href = "edit_madu.php";
-                    </script>';
-                    exit;
-                }
-            } else {
-                // Gagal mengunggah gambar
-                echo '<script>
-                    alert("Gagal mengunggah gambar");
-                    window.location.href = "edit_madu.php";
-                </script>';
-                exit;
-            }
-        } else {
-            // File yang diunggah harus dalam format JPEG, JPG, atau PNG
-            echo '<script>
-                alert("File yang diunggah harus dalam format JPEG, JPG, atau PNG");
-                window.location.href = "edit_madu.php";
-            </script>';
-            exit;
-        }
-    } else {
-        // Terjadi kesalahan saat mengunggah gambar
-        echo '<script>
-            alert("Terjadi kesalahan saat mengunggah gambar");
-            window.location.href = "edit_madu.php";
-        </script>';
-        exit;
-    }
+// Proses upload gambar jika ada file yang diupload
+if (!empty($gambar1)) {
+  $targetDir = "produk/"; // Ganti dengan path ke folder produk yang sesuai
+  $targetFile1 = $targetDir . basename($gambar1);
+  move_uploaded_file($_FILES["gambar_1"]["tmp_name"], $targetFile1);
 }
+
+if (!empty($gambar2)) {
+  $targetFile2 = $targetDir . basename($gambar2);
+  move_uploaded_file($_FILES["gambar_2"]["tmp_name"], $targetFile2);
+}
+
+if (!empty($gambar3)) {
+  $targetFile3 = $targetDir . basename($gambar3);
+  move_uploaded_file($_FILES["gambar_3"]["tmp_name"], $targetFile3);
+}
+
+// Tutup koneksi database
+mysqli_close($conn);
+
+// Setelah proses pengeditan dan upload gambar selesai, arahkan pengguna ke halaman produk
+header("Location: produk.php?status=success");
+exit();
 ?>

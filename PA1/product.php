@@ -86,7 +86,7 @@
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Questions</a></li>
 
                     <?php
 require_once 'config.php';
@@ -115,49 +115,70 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
     <!-- End Main Top -->
 
     
-<!-- Start Categories  -->
-<h2 class="h1 fw-bold mb-0 m-1 p-3 mt-3 text-center">Produk Olahan MauasJKM</h2>
-    <div class="categories-shop">
+        <!-- Start Products  -->
+        <div class="products-box">
         <div class="container">
             <div class="row">
-                <?php
-                require_once 'config.php';
-                $sql = "SELECT * FROM produk";
-                $result = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($result) > 0) {
-                    $counter = 0; // Counter untuk menghitung jumlah produk yang ditampilkan
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        if ($counter % 3 == 0) {
-                            // Membuka baris baru setiap 3 produk
-                            echo '<div class="row">';
-                        }
-                ?>
-
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/<?php echo $row['gambar']?>" alt="" />
-                        <a class="btn hvr-hover" href="<?php echo $row['link_deskripsi']?>"><?php echo $row['nama_produk']?></a>
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Produk Olahan Mauas JKM</h1>
+                        <p>Mauas JKM memberikan beberapa produk olahan yang tentunya sangat memberikan rasa Khas yang berbeda daripada Produk Olahan yang sejenisnya.</p>
                     </div>
                 </div>
-                <?php
-                        $counter++;
-                        if ($counter % 3 == 0) {
-                            // Menutup baris setiap 3 produk
-                            echo '</div>';
-                        }
-                    }
-                    if ($counter % 3 != 0) {
-                        // Menutup baris terakhir jika jumlah produk tidak kelipatan 3
-                        echo '</div>';
-                    }
-                }
-                ?>
+            </div>
 
+
+
+
+            <?php 
+require_once 'config.php';
+$sql = "SELECT * FROM produk";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+    $counter = 0; // Counter untuk menghitung jumlah produk yang ditampilkan
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($counter % 3 == 0) {
+            // Membuka baris baru setiap 3 produk
+            echo '<div class="row">';
+        }
+?>
+    <div class="col-lg-4 col-md-6 special-grid best-seller">
+        <div class="products-single fix">
+            <div class="box-img-hover">
+                <div class="type-lb">
+                    <p class="sale">Mauas JKM</p>
+                </div>
+                <img src="halaman_admin/<?php echo $row['gambar_1']; ?>" class="img-fluid" alt="Image">
+                <div class="mask-icon">
+                    <ul>
+                    <li><a href="produk_mauas.php?id_produk=<?php echo $row['id_produk']; ?>" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                    </ul>
+                    <!-- <a class="cart"">Beli Sekarang</a> -->
+                </div>
+            </div>
+            <div class="why-text">
+                <h4><?php echo $row['nama_produk']; ?></h4>
+                <h5><i class="bi bi-tags-fill"></i> IDR <?php echo number_format($row['harga_produk']); ?></h5>
             </div>
         </div>
     </div>
-    <!-- End Categories -->	
+<?php
+        $counter++;
+        if ($counter % 3 == 0) {
+            // Menutup baris setiap 3 produk
+            echo '</div>';
+        }
+    }
+    if ($counter % 3 != 0) {
+        // Menutup baris terakhir jika jumlah produk tidak kelipatan 3
+        echo '</div>';
+    }
+}
+?>
 
+    <!-- End Products  -->
+
+    </div>
 
 
     <!-- Start Instagram Feed  -->

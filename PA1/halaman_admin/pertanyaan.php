@@ -169,52 +169,45 @@
           <div class="row">
             <div class="col-md-12 fw-bold fs-3 text-center text-light">Data Pertanyaan Produk Mauas JKM</div> 
           </div>
-          <div class="container text-center">
-  <div class="row mt-3 m-1 p-1">
-  <div class="container text-center">
-  <div class="row">
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/madulogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>
-    Madu Mauas</b></h5>
-    <p class="card-text">Data dibawah adalah data Pertanyaan dari User. </p>
-    <?php 
-        require '../config.php';
-        $data1 = mysqli_query($conn,"SELECT * FROM pertanyaan WHERE id_produk = 1 AND jawaban = ''");
-        $count1 = mysqli_num_rows($data1);
-        $data2 = mysqli_query($conn,"SELECT * FROM pertanyaan WHERE id_produk = 2 AND jawaban = ''");
-        $count2 = mysqli_num_rows($data2);
-        $data3 = mysqli_query($conn,"SELECT * FROM pertanyaan WHERE id_produk = 3 AND jawaban = ''");
-        $count3 = mysqli_num_rows($data3);
+          <div class="container">
+          <table class="table bg-dark text-light">
+  <thead>
+    <tr>
+      <th scope="col">Nama Produk</th>
+      <th scope="col">Nama Customer</th>
+      <th scope="col">Pertanyaan</th>
+      <th scope="col">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php
+require_once '../config.php';
 
+// Query untuk mengambil data carousel dari tabel carousel
+$query = "SELECT * FROM pertanyaan
+          INNER JOIN produk ON pertanyaan.id_produk = produk.id_produk
+          INNER JOIN akun ON akun.id_akun = pertanyaan.id_user
+          WHERE jawaban = ''";
+$result = mysqli_query($conn, $query);
+
+// Cek apakah ada data carousel
+if (mysqli_num_rows($result) > 0) {
+  while ($row = mysqli_fetch_assoc($result)) {
     ?>
-    <a href="pertanyaan_madu.php" class="btn btn-primary"><?php echo $count1?> Pertanyaan</a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/cookieslogin.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Cookies Mauas</b></h5>
-    <p class="card-text">Data dibawah adalah data Pertanyaan dari User.</p>
-    <a href="pertanyaan_cookies.php" class="btn btn-primary"><?php echo $count2?> Pertanyaan</a>
-  </div>
-</div>
-    </div>
-    <div class="col">
-    <div class="card" style="width: 18rem;">
-  <img src="../asset/sambalTEMAN1.jpeg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><b>Sambal Andaliman</b></h5>
-    <p class="card-text">Data dibawah adalah data Pertanyaan dari User.</p>
-    <a href="pertanyaan_teman.php" class="btn btn-primary"><?php echo $count3?> Pertanyaan</a>
-  </div>
-</div>
-    </div>
-  </div>
+<tr>
+  <th scope="row"><?php echo $row['nama_produk']?></th>
+  <th scope="row"><?php echo $row['nama_lengkap']?></th>
+  <td><?php echo $row['pertanyaan']?></td>
+  <td>
+    <a href="jawab_pertanyaan.php?id=<?= $row['id_pertanyaan']?>" class="btn btn-success"><b>Jawab</b></a>
+  </td>
+</tr>
+    <?php }
+    }
+    ?>
+
+  </tbody>
+</table>
 </div>
   </div>
        </div>

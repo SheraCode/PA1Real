@@ -3,7 +3,7 @@ session_start();
 $id_user =$_SESSION["akun_id"];
 require 'config.php';
 $pertanyaan = $_POST['pertanyaan'];
-$produk = $_POST['produk'];
+$produk = $_POST['id_produk'];
 
 $query = "INSERT INTO pertanyaan (id_pertanyaan,pertanyaan,id_produk,id_user,jawaban) VALUES ('0','$pertanyaan','$produk','$id_user', '')";
 

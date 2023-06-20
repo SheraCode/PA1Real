@@ -98,7 +98,56 @@
     </header>
     <!-- End Main Top -->
 
-    <!-- Start Slider -->
+<!-- Slider Dinamis Coba -->
+<?php
+require_once 'config.php';
+
+// Query untuk mengambil data carousel dari tabel carousel
+$query = "SELECT * FROM produk";
+$result = mysqli_query($conn, $query);
+
+// Cek apakah ada data carousel
+if (mysqli_num_rows($result) > 0) {
+    ?>
+    <div id="slides-shop" class="cover-slides">
+        <ul class="slides-container">
+            <?php
+            // Looping untuk menampilkan setiap data carousel
+            while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                <li class="text-center">
+                    <img src="halaman_admin/<?php echo $row['gambar_1']; ?>" alt="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 class="m-b-20"><strong><?php echo $row['nama_produk']; ?></strong></h1>
+                                <!-- <p class="m-b-40"><?php echo $row['deskripsi_produk']; ?></p> -->
+                                <p><a class="btn hvr-hover" href="produk_mauas.php?id_produk=<?php echo $row['id_produk']; ?>">Shop Now</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
+        <div class="slides-navigation">
+            <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <?php
+} else {
+    // Tampilkan pesan jika tidak ada data carousel
+    echo "No carousel data found.";
+}
+?>
+
+<!-- Akhir Slider Otomatis coba -->
+
+
+
+    <!-- Start Slider
     <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">
             <li class="text-center">
@@ -142,51 +191,9 @@
             <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
             <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
         </div>
-    </div>
+    </div> -->
     <!-- End Slider -->
 
-    <!-- Start Categories  -->
-    <h2 class="h1 fw-bold mb-0 m-1 p-3 mt-3 text-center">Produk Olahan MauasJKM</h2>
-    <div class="categories-shop">
-        <div class="container">
-            <div class="row">
-                <?php
-                require_once 'config.php';
-                $sql = "SELECT * FROM produk";
-                $result = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($result) > 0) {
-                    $counter = 0; // Counter untuk menghitung jumlah produk yang ditampilkan
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        if ($counter % 3 == 0) {
-                            // Membuka baris baru setiap 3 produk
-                            echo '<div class="row">';
-                        }
-                ?>
-
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="asset/<?php echo $row['gambar']?>" alt="" />
-                        <a class="btn hvr-hover text-light" onclick="alertdetail()" ><?php echo $row['nama_produk']?></a>
-                    </div>
-                </div>
-                <?php
-                        $counter++;
-                        if ($counter % 3 == 0) {
-                            // Menutup baris setiap 3 produk
-                            echo '</div>';
-                        }
-                    }
-                    if ($counter % 3 != 0) {
-                        // Menutup baris terakhir jika jumlah produk tidak kelipatan 3
-                        echo '</div>';
-                    }
-                }
-                ?>
-
-            </div>
-        </div>
-    </div>
-    <!-- End Categories -->
 	
 	<div class="box-add-products">
 		<div class="container">
@@ -233,12 +240,11 @@ if (mysqli_num_rows($result) > 0) {
                 <div class="type-lb">
                     <p class="sale">Mauas JKM</p>
                 </div>
-                <img src="asset/<?php echo $row['gambar']; ?>" class="img-fluid" alt="Image">
+                <img src="halaman_admin/<?php echo $row['gambar_1']; ?>" class="img-fluid" alt="Image">
                 <div class="mask-icon">
                     <ul>
                         <li><a onclick="alertdetail()" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                     </ul>
-                    <a class="cart" href="<?php echo $row['link_beli']?>">Beli Sekarang</a>
                 </div>
             </div>
             <div class="why-text">
@@ -264,7 +270,7 @@ if (mysqli_num_rows($result) > 0) {
     <!-- End Products  -->
 
     <!-- Start Blog  -->
-    <div class="latest-blog">
+    <!-- <div class="latest-blog">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -326,8 +332,64 @@ if (mysqli_num_rows($result) > 0) {
             </div>
         </div>
     </div>
-    </div>
+    </div> -->
     <!-- End Blog  -->
+
+        <!-- Start Blog  -->
+        <?php
+require_once 'config.php';
+
+// Query untuk mengambil data produk dari tabel produk
+$query = "SELECT * FROM produk";
+$result = mysqli_query($conn, $query);
+
+// Cek apakah ada data produk
+if (mysqli_num_rows($result) > 0) {
+    ?>
+    <div class="latest-blog">
+        <div class="container">
+            <div class="row">
+            <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Deskripsi Produk</h1>
+                        <p>Semua Produk yang dijual di Mauas JKM mempunyai ciri Khas nya masing-masing.</p>
+                    </div>
+                </div>
+                <?php
+                // Looping untuk menampilkan setiap data produk
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="col-md-6 col-lg-4 col-xl-4">
+                        <div class="blog-box">
+                            <div class="blog-img">
+                                <img class="img-fluid" src="halaman_admin/<?php echo $row['gambar_1']; ?>" alt="" />
+                            </div>
+                            <div class="blog-content">
+                                <div class="title-blog">
+                                    <h3><?php echo $row['nama_produk']; ?></h3>
+                                    <p><?php echo $row['deskripsi_produk']; ?></p>
+                                </div>
+
+                                <!-- <div id="review-<?php echo $row['id']; ?>" class="mt-3"></div> -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+    </div>
+    <?php
+} else {
+    // Tampilkan pesan jika tidak ada data produk
+    echo "No product data found.";
+}
+?>
+
 
 
     <!-- Start Instagram Feed  -->

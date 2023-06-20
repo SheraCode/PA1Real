@@ -103,7 +103,7 @@ require 'config.php';
                     <li class="nav-item"><a class="nav-link" href="product.php"><i class="bi bi-basket3-fill"></i> Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php"><i class="bi bi-person-square"></i> About</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile_user.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Pertanyaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="keranjang.php"><i class="bi bi-chat-fill"></i> Questions</a></li>
 
                     <?php
 require_once 'config.php';
@@ -138,49 +138,92 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
 </head>
 <body>
     <div class="container mt-5">
-        <table class="table bg-dark text-light">
-            <thead>
-                <tr>
-                    <th scope="col">Nama Produk</th>
-                    <th scope="col">Kuantitas</th>
-                    <th scope="col">Total Harga</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
     <?php
-    require_once 'config.php';
-    // session_start();
-    $id_user = $_SESSION['akun_id'];
-    $sql = "SELECT * FROM chart INNER JOIN produk ON produk.id_produk = chart.id_produk WHERE id_user = $id_user";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            ?>
+// chart.php
+
+require_once 'config.php';
+
+$id_user = $_SESSION['akun_id'];
+
+// Proses penghapusan data dari tabel jika parameter delete diterima
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['delete'])) {
+    $id_chart = $_GET['delete'];
+    $deleteQuery = "DELETE FROM chart WHERE id_chart = $id_chart";
+    mysqli_query($conn, $deleteQuery);
+}
+
+// Mengambil data dari tabel chart dan produk
+$sql = "SELECT * FROM chart INNER JOIN produk ON produk.id_produk = chart.id_produk WHERE id_user = $id_user";
+$result = mysqli_query($conn, $sql);
+$dataTabel = array();
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $dataTabel[] = $row;
+    }
+}
+?>
+
+<table class="table bg-dark text-light">
+    <thead>
+        <tr>
+            <th scope="col">Nama Produk</th>
+            <th scope="col">Kuantitas</th>
+            <th scope="col">Total Harga</th>
+            <th scope="col">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($dataTabel as $data) : ?>
             <tr>
-                <th scope="row"><?php echo $row['nama_produk'] ?></th>
-                <td><?php echo $row['kuantitas'] ?></td>
-                <td>Rp <?php echo number_format($row['total_harga'], 0, ',', '.') ?></td>
+                <th scope="row"><?php echo $data['nama_produk']; ?></th>
+                <td><?php echo $data['kuantitas']; ?></td>
+                <td>Rp <?php echo number_format($data['total_harga'], 0, ',', '.'); ?></td>
                 <td>
-                    <?php if ($row['nama_produk'] === 'Madu Mauas'): ?>
-                        <a href="edit_chart_produk_a.php?id=<?= $row['id_chart']; ?>" class="btn btn-warning"><b>Edit</b></a>
-                    <?php elseif ($row['nama_produk'] === 'Cookies Mauas'): ?>
-                        <a href="edit_chart.php?id=<?= $row['id_chart']; ?>" class="btn btn-warning"><b>Edit</b></a>
-                    <?php elseif ($row['nama_produk'] === 'Sambal Teri Andaliman'): ?>
-                        <a href="edit_chart_produk_c.php?id=<?= $row['id_chart']; ?>" class="btn btn-warning"><b>Edit</b></a>
-                    <?php else: ?>
-                        <a href="edit_chart_produk_b.php?id=<?= $row['id_chart']; ?>" class="btn btn-warning"><b>Edit</b></a>
-                    <?php endif; ?>
-                    <a href="delete_chart.php?id=<?= $row['id_chart'] ?>" class="btn btn-danger" name="delete"><b>Hapus</b></a>
+                    <?php
+                    $id_chart = $data['id_chart'];
+                    $id_produk = $data['id_produk'];
+                    $editURL = "edit_chart_produk.php?id_chart=$id_chart&id_produk=$id_produk";
+                    ?>
+                    <a href="<?php echo $editURL; ?>" class="btn btn-warning"><b>Edit</b></a>
+                    <a href="chart.php?delete=<?= $data['id_chart']; ?>" class="btn btn-danger" name="delete"><b>Hapus</b></a>
                 </td>
             </tr>
-            <?php
-        }
-    }
-    ?>
-</tbody>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
-        </table>
+
+        <?php
+
+require_once 'config.php';
+
+$id_user = $_SESSION['akun_id'];
+$sql = "SELECT * FROM chart INNER JOIN produk ON produk.id_produk = chart.id_produk WHERE id_user = $id_user";
+$result = mysqli_query($conn, $sql);
+
+$dataTabel = array(
+    
+);
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data = array(
+            'nama_produk' => $row['nama_produk'],
+            'kuantitas' => $row['kuantitas']
+        );
+        $dataTabel[] = $data;
+    }
+}
+
+// Mengonversi data tabel menjadi string yang dapat dikirim melalui POST
+$dataString = serialize($dataTabel);
+?>
+<!-- <h3><?php echo $dataString?></h3> -->
+
+<!-- Formulir untuk mengirimkan data melalui POST -->
+
+
 
         <?php
             require_once 'config.php';
@@ -217,6 +260,7 @@ echo '<li class="nav-item"><a class="nav-link" href="chart.php"><i class="bi bi-
                         if($total_harga == 0) { ?>
                             <a href="product.php" class="btn btn-success"><b>Pilih Produk</b></a>
                         <?php } ?>
+                        <!-- <textarea name="datapememsanan" id="" cols="30" rows="10" value="<?php echo $dataString?>"><?php echo $dataString?></textarea> -->
                     </div>
                 </div>
             </div>

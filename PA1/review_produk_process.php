@@ -1,5 +1,6 @@
 <?php
 session_start();
+$id_produk = $_POST['id_produk'];
 $id_user =$_SESSION["akun_id"];
 $username =  $_POST['username'];
 require 'config.php';
@@ -18,11 +19,11 @@ move_uploaded_file($file_tmp, 'foto/' .$foto);
 //                     username = '$username',
 //                     nama_produk = '' ";
 
-$query = "INSERT INTO feedback (id_ulasan,urutan,review,akun_id,picture,username,id_produk) VALUES ('$id_user','','$ulasan_produk','$id_user','$foto','$username',1)";
+$query = "INSERT INTO feedback (id_ulasan,urutan,review,id_akun,picture,username,id_produk) VALUES ('$id_user','','$ulasan_produk','$id_user','$foto','$username','$id_produk')";
 
 mysqli_query($conn,$query)
 or die("SQL Error " .mysqli_error());
-header('location:shopdetail_madumauas.php');
+header('location:user_login.php');
 
 // $query_sql = "INSERT INTO ulasan (id_ulasan,username,gambar,review) VALUES ('','$username','$file_gambar','$ulasan_produk')";
 
