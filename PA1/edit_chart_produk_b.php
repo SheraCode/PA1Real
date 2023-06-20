@@ -308,4 +308,8 @@ if (!empty($id_chart)) {
 
 </body>
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 3dacf96a315f12eebbbfc3526f4042f044a423ab
